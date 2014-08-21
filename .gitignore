@@ -1,9 +1,13 @@
+conf.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 
 # C extensions
 *.so
+*.sublime-project
+*.sublime-workspace
 
 # Distribution / packaging
 .Python
