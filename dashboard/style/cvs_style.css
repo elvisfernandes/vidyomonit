@@ -1,0 +1,462 @@
+
+#cvs_tabs {
+    border-radius: 10px;
+    background: #FFF;
+    width: 100%;
+}
+#cvs_tabs #cvs_tab1_subtabs,#cvs_tabs #cvs_tab2_subtabs  {
+    border:none;
+}
+#cvs_tabs .ui-widget-header {
+    background: #FFF;
+    border: none;
+    border-bottom: 1px solid #c0c0c0;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+}
+#cvs_tabs .ui-tabs-nav .ui-state-default {
+    background:  #FFF; ;
+    border: none;
+}
+#cvs_tabs .ui-tabs-nav .ui-state-active {
+    background: transparent url(../images/uiTabsArrow.png) no-repeat bottom center;
+    border: none;
+}
+#cvs_tabs .ui-tabs-nav .ui-state-default a {
+    font-size:15px;
+    font-weight: bold;
+    color: #777;
+}
+#cvs_tabs .ui-tabs-nav .ui-state-active a {
+    color: #22529e;
+}
+
+.cvs_chart_wrapper{
+    padding:2px;
+    margin-top: 20px;
+}
+
+.cvs_wrapper{
+    width:100%;
+    margin: 0 auto;
+}
+
+.cvs_left{
+    float:left;
+}
+
+.cvs_right{
+    float:right;
+}
+
+.cvs_clear{
+    clear:both;
+    height: 0px;
+}
+
+div.cvs_loading {
+    margin:60px 30px;
+    padding-left: 24px;
+    font-weight: bold;
+    background: url("../images/cvs_loading.gif") left center no-repeat;
+}
+
+div.cvs_chart_title {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    vertical-align: middle;
+    font-weight: bold;
+    width:60%;
+}
+
+.cvs_chart_lastupdate {
+    width: 30%;
+    padding:5px;
+    text-align: right;
+    font-style: italic;
+    font-size: 10px;
+}
+
+div.cvs_chart_error {
+    margin: 20px auto;
+    font-weight: bold;
+    color: #FF0000;
+}
+
+div.cvs_chart_annotated {
+    height: 330px;
+    width: 95%;
+    display: none;
+    margin: 0 auto;
+}
+
+div.cvs_chart_annotated div {
+    height: 100%;
+    width: 95%;
+    margin: 0 auto
+
+}
+
+
+div.cvs_chart_annotated table tbody tr{
+    background: none;
+    border: none;
+}
+
+div.cvs_chart_pie {
+    width: 95%;
+    height: 350px;
+    margin: 10px auto;
+}
+
+div.cvs_chart_gauge {
+    width: 250px;
+    height: 250px;
+    margin: 10px auto;
+}
+
+div.cvs_chart_bar {
+    height: 450px;
+    width: 95%;
+    display: none;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+}
+
+div.cvs_chart_bar div {
+    height: 200px;
+}
+
+div.cvs_chart_bar_small {
+    height: 350px;
+    width: 95%;
+    display: none;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+}
+
+div.cvs_chart_bar_small div {
+    height: 350px;
+}
+
+div.cvs_chart_bar div {
+    height: 440px;
+}
+
+div.cvs_chart_line {
+    height: 450px;
+    width: 95%;
+    display: none;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+}
+
+div.cvs_chart_line div {
+    height: 440px;
+}
+
+.ui-tabs .ui-tabs-panel {
+    padding: 0;
+}
+
+div.cvs_groups {
+    height: 450px;
+    width: 60%;
+    display: none;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+}
+
+div.cvs_groups div {
+    height: 440px;
+
+}
+
+div.cvs_legacy {
+    height: 450px;
+    width: 60%;
+    display: none;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+}
+
+div.cvs_legacy div {
+    height: 450px;
+
+}
+
+div.cvs_table {
+    height: 450px;
+    width: 35%;
+    margin: 0 auto;
+    overflow: auto;
+}
+
+.cvs_monitoring_wrapper{
+    width:900px;
+}
+
+.cvs_monitoring_left {
+    float:left;
+    width:450px;
+
+}
+.cvs_monitoring_right{
+    float:right;
+    width:450px;
+
+}
+.cvs_monitoring_margin{
+    padding: 10px;
+    padding-top: 30px;
+    padding-bottom: 5px;
+
+}
+.cvs_monitoring_wrapper img{
+    vertical-align: middle;
+}
+
+img{
+    vertical-align: middle;
+}
+
+.text_status{
+    width: 400px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.no_space{
+    margin-top:0px;
+    margin-bottom: 0px;
+    padding-top: 0px;
+    padding-left: 0px;
+}
+.history_link{
+    float: right;
+    padding-top: 6px;
+    font-size: 12px;
+    width: 75px;
+    vertical-align: middle;
+    margin: 0;
+}
+.zoom_link{
+    position: relative;
+    padding: 0;
+    margin: 0;
+}
+.zoom_link a {
+    position: absolute;
+    right: 8px;
+    z-index: 9999;
+    font-size: 12px;
+}
+
+div.cvs_char_mini {
+    width: 450px;
+    display: none;
+}
+
+div.cvs_char_mini div {
+}
+
+.cvs_chart_wrapper_mini{
+    padding: 2px;
+    display: none;
+    margin: 0 auto;
+}
+.service-container {
+    min-height: 50px;
+}
+.cvs_hidden {
+    display: none;
+}
+
+.cvs_history_link, .cvs_user_history_link, .zoom_link a {
+    cursor: pointer;
+}
+.cvs_routers {
+    list-style-image: url('../images/router_green_small.png');
+}
+
+.cvs_routers li {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    padding-top:10px;
+}
+.cvs_routers li a {
+    text-decoration:  none;
+}
+
+.cvs_gateways {
+    list-style-image: url('../images/gateway_green_small.png');
+}
+
+.cvs_gateways li {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    padding-top:10px;
+}
+.cvs_gateways li a {
+    text-decoration:  none;
+}
+
+.labels{
+     color: green;
+     background-color: white;
+     font-family: "Lucida Grande", "Arial", sans-serif;
+     font-size: 10px;
+     font-weight: bold;
+     border: 1px solid black;
+     white-space: nowrap;
+     padding: 2px;
+}
+.extra_padding{
+    padding-left: 40px;
+    font-size: 10px;
+
+}
+.extra_padding .cvs_monitoring_portal_summary_users_img  img{
+    width:20px;
+}
+#show_all_map{
+    z-index: 10;
+    width:120px;
+    float:left;
+    position: absolute;
+    left:80px;
+    top: 75px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    max-height: 450px;
+    cursor: pointer;
+}
+#cvs_filters{
+    z-index: 10;
+    background: rgba(255,255,255,0.7);
+    width:120px;
+    float:right;
+    position: absolute;
+    right:0px;
+    top: 80px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    overflow: auto;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    max-height: 450px;
+    cursor: pointer;
+    font-size: 14px;
+}
+#cvs_filters span{
+    font-weight: bold;
+    float: left;
+    width:110px;
+    color: #FFF;
+    background: rgba(120,120,120,0.3);
+    border-bottom: #FFF solid 1px;
+    padding-left:10px;
+    margin:0;
+}
+#cvs_filters span input{
+    float:right;
+    margin:6px;
+}
+#cvs_filters div ul{
+    margin:0px;
+    padding-left:5px;
+    list-style:none;
+}
+#cvs_filters div ul li a{
+    overflow: hidden;
+    width: 70px;
+    text-overflow: ellipsis;
+    font-size: 10px;
+}
+#cvs_monitoring_summery div h3{
+    padding-top:10px;
+    padding-bottom: 5px;
+    margin-bottom:10px;
+    margin:0px;
+    text-align: center;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    border-bottom: #FFF solid 1px;
+    font-weight: bold;
+    color: #333333;
+    background: #EEE;
+}
+#cvs_summary_more_link{
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#cvs_monitoring_summery{
+    background: #FFF;
+}
+
+#cvs_monitoring_summery div ul{
+    margin-left:40px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    padding-left:20px;
+}
+#cvs_monitoring_summery div ul li {
+    padding-top:10px;
+}
+#cvs_monitoring_summery div ul li a{
+    overflow: hidden;
+    width: 80px;
+    text-overflow: ellipsis;
+}
+
+.routers_list ul{
+    list-style-image: url('../images/router_green_small.png');
+}
+.gateway_list ul{
+    list-style-image: url('../images/gateway_green_small.png');
+}
+
+
+.cvs_topology_container {
+    height: 1000px;
+    width: 100%;
+}
+
+.cvs_topology_container .node circle {
+  cursor: pointer;
+}
+
+.cvs_topology_container .node text {
+  font-size: 14px;
+  pointer-events: none;
+  text-anchor: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.cvs_topology_container .node .usercount,
+.cvs_topology_container .node .minilabel {
+  font-size: 12px;
+  fill: white;
+}
+
+.cvs_topology_container .node.portal .usercount {
+  font-size: 18px;
+}
+
+.cvs_topology_container .fixed circle {
+  stroke: #000;
+}
+
+.cvs_topology_container line.link {
+  fill: none;
+  stroke: #9ecae1;
+  stroke-width: 1px;
+  stroke-opacity: 0.8;
+}
+
+.cvs_topology_container #spinner {
+  position: absolute;
+  z-index: 1000;
+  left: 20px;
+  top: 60px;
+}

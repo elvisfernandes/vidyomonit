@@ -1,0 +1,1020 @@
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<meta http-equiv="refresh" content="1800">
+
+<div id="cvs_tabs">
+     <ul>
+        <li><a href="#cvs_tab0">Real-time Activity</a></li>
+        <li><a href="#cvs_tab1">Usage Evolution</a></li>
+        <li><a href="#cvs_tab2">Visits Overview</a></li>
+        <li><a href="#cvs_tab3">Monitoring</a></li>
+    </ul>
+
+    <!-- *****************************************************************************************************************
+    * TAB 1
+    *****************************************************************************************************************/ -->
+    <div id="cvs_tab0">
+
+        <!-- Stripped topology graph -->
+        <div class="cvs_chart_wrapper">
+            <div id="cvs_stripped_topology_container" class="cvs_topology_container"></div>
+        </div>
+
+        <!-- chart Maximum Simultaneous Connections - last 24 -->
+        <div class="cvs_chart_wrapper">
+            <div class="cvs_chart_title cvs_left">
+                Maximum Simultaneous Connections (System wide) - last 24 hours
+            </div>
+            <div class="cvs_chart_lastupdate cvs_right">
+                Last update: <span id="cvs_maxSimCallersLast24_lastupdate"></span>
+            </div>
+            <div class="cvs_clear"></div>
+            <div id="cvs_maxSimCallersLast24_loading" class="cvs_loading">Loading data chart...</div>
+            <div id="cvs_maxSimCallersLast24_chart" class="cvs_chart_annotated">
+                <div id="cvs_maxSimCallersLast24_chart_container"></div>
+            </div>
+        </div>
+        <!-- chart Number of Connections - last 24 -->
+        <div class="cvs_chart_wrapper">
+            <div class="cvs_chart_title cvs_left">
+                Total Number of Connections - last 24 hours
+            </div>
+            <div class="cvs_chart_lastupdate cvs_right">
+                Last update: <span id="cvs_usersInConferenceCallsLast24_lastupdate"></span>
+            </div>
+            <div class="cvs_clear"></div>
+            <div id="cvs_usersInConferenceCallsLast24_loading" class="cvs_loading">Loading data chart...</div>
+            <div id="cvs_usersInConferenceCallsLast24_chart" class="cvs_chart_annotated">
+                <div id="cvs_usersInConferenceCallsLast24_chart_container"></div>
+            </div>
+        </div>
+        <!-- chart TOP 10 meetings / day -->
+                <div class="cvs_chart_wrapper">
+                    <div class="cvs_chart_title cvs_left">
+                        Max Number of Participants per Meeting - top 10 meetings last 24 hours
+                    </div>
+                    <div class="cvs_chart_lastupdate cvs_right">
+                        Last update: <span id="cvs_top10meeting_day_lastupdate"></span>
+                    </div>
+                    <div class="cvs_clear"></div>
+                    <div id="cvs_top10meeting_day_loading" class="cvs_loading">Loading data chart...</div>
+                    <div id="cvs_top10meeting_day_chart" class="cvs_chart_line">
+                            <div id="cvs_top10meeting_day_chart_container"></div>
+                    </div>
+                </div>
+        <!-- chart Meetings per day -->
+        <div class="cvs_chart_wrapper">
+            <div class="cvs_chart_title cvs_left">
+                Meetings per day
+            </div>
+            <div class="cvs_chart_lastupdate cvs_right">
+                Last update: <span id="cvs_meetingsLastWeek_lastupdate"></span>
+            </div>
+            <div class="cvs_clear"></div>
+            <div id="cvs_meetingsLastWeek_loading" class="cvs_loading">Loading data chart...</div>
+            <div id="cvs_meetingsLastWeek_chart" class="cvs_chart_line">
+                <div id="cvs_meetingsLastWeek_chart_container"></div>
+            </div>
+        </div>
+    </div>
+    <!-- *****************************************************************************************************************
+    * TAB 2
+    *****************************************************************************************************************/ -->
+    <div id="cvs_tab1">
+
+        <!-- *****************************************************************************************************************
+        * SUBTABS
+        *****************************************************************************************************************/ -->
+        <div id="cvs_tab1_subtabs">
+            <ul>
+                <li><a href="#cvs_tab1_subtab0">Connections</a></li>
+                <li><a href="#cvs_tab1_subtab1">Registrations</a></li>
+                <li><a href="#cvs_tab1_subtab2">Communities</a></li>
+                <li><a href="#cvs_tab1_subtab3">H323/SIP endpoints</a></li>
+            </ul>
+
+            <!-- *****************************************************************************************************************
+            * SUBTAB 1
+            *****************************************************************************************************************/ -->
+
+            <div id="cvs_tab1_subtab0">
+                <!-- chart Maximum Simultaneous Connections - Last Year -->
+                <div class="cvs_chart_wrapper">
+                    <div class="cvs_chart_title cvs_left">
+                        Maximum Simultaneous Connections (System wide)
+                    </div>
+                    <div class="cvs_chart_lastupdate cvs_right">
+                        Last update: <span id="cvs_maxSimCallers_lastupdate"></span>
+                    </div>
+                    <div class="cvs_clear"></div>
+                    <div id="cvs_maxSimCallers_loading" class="cvs_loading">Loading data chart...</div>
+                    <div id="cvs_maxSimCallers_chart" class="cvs_chart_annotated">
+                        <div id="cvs_maxSimCallers_chart_container"></div>
+                    </div>
+                </div>
+
+                <!-- chart Number of Connections - Forever -->
+                <div class="cvs_chart_wrapper">
+                    <div class="cvs_chart_title cvs_left">
+                        Total Number of Connections
+                    </div>
+                    <div class="cvs_chart_lastupdate cvs_right">
+                        Last update: <span id="cvs_usersInConferenceCalls_lastupdate"></span>
+                    </div>
+                    <div class="cvs_clear"></div>
+                    <div id="cvs_usersInConferenceCalls_loading" class="cvs_loading">Loading data chart...</div>
+                    <div id="cvs_usersInConferenceCalls_chart" class="cvs_chart_annotated">
+                        <div id="cvs_usersInConferenceCalls_chart_container"></div>
+                    </div>
+                </div>
+
+
+                 <!-- chart Minutes in conferences -->
+                <div class="cvs_chart_wrapper">
+                    <div class="cvs_chart_title cvs_left">
+                        Number of Minutes per User
+                    </div>
+                    <div class="cvs_chart_lastupdate cvs_right">
+                        Last update: <span id="cvs_minutesInConf_lastupdate"></span>
+                    </div>
+                    <div class="cvs_clear"></div>
+                    <div class="cvs_right">
+                      <div id="radio" style="padding:5px;">
+                        <input type="radio" id="radio1" name="radio"  onclick="cvs_minutes_in_conf_builder(0)" /><label for="radio1">Daily</label>
+                        <input type="radio" id="radio2" name="radio" onclick="cvs_minutes_in_conf_builder(1)" checked="checked" /><label for="radio2">Monthly</label>
+                        <!--<input type="radio" id="radio3" name="radio" onclick="cvs_minutes_in_conf_builder(2)" /><label for="radio3">Yearly</label>
+                    -->
+                      </div>
+                    </div>
+                    <div class="cvs_clear"></div>
+                    <div id="cvs_minutesInConf_loading" class="cvs_loading">Loading data chart...</div>
+                    <div id="cvs_minutesInConf_chart" class="cvs_chart_line">
+                        <div id="cvs_minutesInConf_chart_container"></div>
+                    </div>
+                </div>
+                <!-- chart Distinct Users per Month -->
+                <div class="cvs_chart_wrapper">
+                    <div class="cvs_chart_title cvs_left">
+                        Distinct Users per Month
+                    </div>
+                    <div class="cvs_chart_lastupdate cvs_right">
+                        Last update: <span id="cvs_uniqueUsersPerMonth_lastupdate"></span>
+                    </div>
+                    <div class="cvs_clear"></div>
+                    <div id="cvs_uniqueUsersPerMonth_loading" class="cvs_loading">Loading data chart...</div>
+                    <div id="cvs_uniqueUsersPerMonth_chart" class="cvs_chart_bar">
+                            <div id="cvs_uniqueUsersPerMonth_chart_container"></div>
+                    </div>
+                </div>
+                <!-- chart Meetings per Month -->
+                <div class="cvs_chart_wrapper">
+                    <div class="cvs_chart_title cvs_left">
+                        Meetings per Month
+                    </div>
+                    <div class="cvs_chart_lastupdate cvs_right">
+                        Last update: <span id="cvs_meetingsPerMonth_lastupdate"></span>
+                    </div>
+                    <div class="cvs_clear"></div>
+                    <div id="cvs_meetingsPerMonth_loading" class="cvs_loading">Loading data chart...</div>
+                    <div id="cvs_meetingsPerMonth_chart" class="cvs_chart_line">
+                        <div id="cvs_meetingsPerMonth_chart_container"></div>
+                    </div>
+                </div>
+                <!-- chart Participants per Meeting -->
+                <div class="cvs_chart_wrapper">
+                    <div class="cvs_chart_title cvs_left">
+                        Participants per Meeting
+                    </div>
+                    <div class="cvs_chart_lastupdate cvs_right">
+                        Last update: <span id="cvs_callersPerMeeting_lastupdate"></span>
+                    </div>
+                    <div class="cvs_clear"></div>
+                    <div id="cvs_callersPerMeeting_loading" class="cvs_loading">Loading data chart...</div>
+                     <div width="100%" align="right" style="padding-top:5px;"><button id="cvs_callersPerMeeting_toggleLogScale">Toggle log scale</button></div>
+                    <div id="cvs_callersPerMeeting_chart" class="cvs_chart_line">
+                        <div id="cvs_callersPerMeeting_chart_container"></div>
+                    </div>
+                </div>
+                 <!-- chart TOP 10 meetings / year -->
+                <div class="cvs_chart_wrapper">
+                    <div class="cvs_chart_title cvs_left">
+                        Max Number of Participants per Meeting - top 10 meetings of the year
+                    </div>
+                    <div class="cvs_chart_lastupdate cvs_right">
+                        Last update: <span id="cvs_top10meeting_year_lastupdate"></span>
+                    </div>
+                    <div class="cvs_clear"></div>
+                    <div id="cvs_top10meeting_year_loading" class="cvs_loading">Loading data chart...</div>
+                    <div id="cvs_top10meeting_year_chart" class="cvs_chart_bar">
+                            <div id="cvs_top10meeting_year_chart_container"></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- *****************************************************************************************************************
+            * SUBTAB 2
+            *****************************************************************************************************************/ -->
+
+            <div id="cvs_tab1_subtab1">
+                <!-- chart Client Installations Evolution -->
+                <div class="cvs_chart_wrapper">
+                    <div class="cvs_chart_title cvs_left">
+                        Client Installations Evolution
+                    </div>
+                    <div class="cvs_chart_lastupdate cvs_right">
+                        Last update: <span id="cvs_installations_lastupdate"></span>
+                    </div>
+                    <div class="cvs_clear"></div>
+                    <div id="cvs_installations_loading" class="cvs_loading">Loading data chart...</div>
+                    <div id="cvs_installations_chart" class="cvs_chart_annotated">
+                            <div id="cvs_installations_chart_container"></div>
+                    </div>
+                </div>
+                           <!-- chart Device / New users / guests -->
+                <div class="cvs_right">
+                      <div id="r_ev" style="padding:5px;">
+                        <input type="radio" id="r1" name="r1"  onclick="$jq('#ev1').show();$jq('#ev2').hide()"  /><label for="r1">Cumulative</label>
+                        <input type="radio" id="r2" name="r1" onclick="$jq('#ev2').show();$jq('#ev1').hide()" checked="checked" /><label for="r2">Evolution</label>
+                      </div>
+                </div>
+                <div class="cvs_chart_wrapper" id="ev1">
+                    <div class="cvs_chart_title cvs_left">
+                        Users vs Devices - Cumulative
+                    </div>
+                    <div class="cvs_chart_lastupdate cvs_right">
+                        Last update: <span id="cvs_users_devices_lastupdate"></span>
+                    </div>
+                    <div class="cvs_clear"></div>
+                    <div id="cvs_users_devices_loading" class="cvs_loading">Loading data chart...</div>
+                    <div id="cvs_users_devices_chart" class="cvs_chart_line">
+                        <div id="cvs_users_devices_chart_container"></div>
+                    </div>
+                </div>
+
+                <div class="cvs_chart_wrapper" id="ev2">
+                    <div class="cvs_chart_title cvs_left">
+                        Users vs Devices - evolution
+                    </div>
+                    <div class="cvs_chart_lastupdate cvs_right">
+                        Last update: <span id="cvs_users_devices2_lastupdate"></span>
+                    </div>
+                    <div class="cvs_clear"></div>
+                    <div id="cvs_users_devices2_loading" class="cvs_loading">Loading data chart...</div>
+                    <div id="cvs_users_devices2_chart" class="cvs_chart_line">
+                        <div id="cvs_users_devices2_chart_container"></div>
+                    </div>
+                </div>
+                        <!-- chart Registrations -->
+                <div class="cvs_chart_wrapper">
+                    <div class="cvs_chart_title cvs_left">
+                        Registrations
+                    </div>
+                    <div class="cvs_chart_lastupdate cvs_right">
+                        Last update: <span id="cvs_registrations_lastupdate"></span>
+                    </div>
+                    <div class="cvs_clear"></div>
+                    <div id="cvs_registrations_loading" class="cvs_loading">Loading data chart...</div>
+                    <div id="cvs_registrations_chart" class="cvs_chart_bar">
+                            <div id="cvs_registrations_chart_container"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- *****************************************************************************************************************
+            * SUBTAB 3
+            *****************************************************************************************************************/ -->
+
+            <div id="cvs_tab1_subtab2">
+                <!-- chart Users Groups -->
+                <div class="cvs_chart_wrapper">
+                    <div class="cvs_chart_title cvs_left">
+                        User Groups
+                    </div>
+                    <div class="cvs_chart_lastupdate cvs_right">
+                        Last update: <span id="cvs_groups_lastupdate"></span>
+                    </div>
+                    <div class="cvs_clear"></div>
+                    <div id="cvs_groups_loading" class="cvs_loading">Loading data chart...</div>
+                    <div id="cvs_groups_table" class="cvs_left cvs_table"></div>
+                    <div id="cvs_groups_chart" class="cvs_right cvs_groups">
+                         <div id="cvs_groups_chart_container"></div>
+                     </div>
+                    <div class="cvs_clear"></div>
+                </div>
+            </div>
+
+            <!-- *****************************************************************************************************************
+            * SUBTAB 4
+            *****************************************************************************************************************/ -->
+
+            <div id="cvs_tab1_subtab3">
+                <div class="cvs_chart_wrapper">
+                    <!-- chart Registered H.323 endpoints (Meeting Rooms) -->
+                    <div class="cvs_chart_title cvs_left">
+                        Registered H.323 endpoints (Meeting Rooms)
+                    </div>
+                    <div class="cvs_chart_lastupdate cvs_right">
+                        Last update: <span id="cvs_chart_lastupdate"></span>
+                    </div>
+                    <div class="cvs_clear"></div>
+                    <div id="cvs_legacies_loading" class="cvs_loading">Loading data chart...</div>
+                    <div id="cvs_legacies_chart" class="cvs_legacy cvs_left">
+                         <div id="cvs_legacies_chart_container"></div>
+                    </div>
+                    <div id="cvs_legacies_table" class="cvs_table cvs_right"></div>
+                    <div class="cvs_clear"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- *****************************************************************************************************************
+    * TAB 3
+    *****************************************************************************************************************/ -->
+    <div id="cvs_tab2">
+         <!-- *****************************************************************************************************************
+        * SUBTABS
+        *****************************************************************************************************************/ -->
+
+        <div id="cvs_tab2_subtabs">
+            <ul>
+                <li><a href="#cvs_tab2_subtab3">Last Year</a></li>
+                <li><a href="#cvs_tab2_subtab2">Yearly</a></li>
+                <li><a href="#cvs_tab2_subtab1">Monthly</a></li>
+                <li><a href="#cvs_tab2_subtab0">Daily</a></li>
+
+            </ul>
+             <!-- *****************************************************************************************************************
+            * SUBTAB 1
+            *****************************************************************************************************************/ -->
+
+            <div id="cvs_tab2_subtab0">
+                <div id ="cvs_map_day"></div>
+
+                <div class="cvs_wrapper">
+                    <div class="cvs_left" style="width:45%;">
+                        <h3 style="text-align: center">Browsers</h3>
+                        <div id="cvs_browser_day_chart" class="cvs_chart_bar_small">
+                                <div id="cvs_browser_day_chart_container"></div>
+                        </div>
+                    </div>
+                    <div class="cvs_right" style="width:45%;">
+                        <h3 style="text-align: center">Operating Systems</h3>
+                        <div id="cvs_os_day_chart" class="cvs_chart_bar_small">
+                                <div id="cvs_os_day_chart_container"></div>
+                        </div>
+                    </div>
+                    <div class="cvs_clear"></div>
+                    <div width="100%" align="right" style="padding-top:5px;"><button id="cvs_toggleBarChartDay">Toggle bar chart</button></div>
+                </div>
+
+                <h3 style="text-align: center;">Visits</h3>
+                <div class="cvs_wrapper">
+                    <div class="cvs_left" style="width:45%;">
+                        <div id="cvs_evo_day_chart" class="cvs_chart_bar_small">
+                                <div id="cvs_evo_day_chart_container"></div>
+                        </div>
+                    </div>
+                    <div class="cvs_right" style="width:45%;" id="cvs_overall_day" style="margin-top:-10px"></div>
+                   <div class="cvs_clear"></div>
+                </div>
+
+                <div class="cvs_chart_lastupdate cvs_right">Last update: <span class="last_update_piwki"></span></div>
+                <div class="cvs_clear"></div>
+            </div>
+
+            <!-- *****************************************************************************************************************
+            * SUBTAB 2
+            *****************************************************************************************************************/ -->
+
+            <div id="cvs_tab2_subtab1">
+                <div id ="cvs_map_month"></div>
+                <div class="cvs_wrapper">
+                    <div class="cvs_left" style="width:45%;">
+                        <h3 style="text-align: center">Browsers</h3>
+                        <div id="cvs_browser_month_chart" class="cvs_chart_bar_small">
+                                <div id="cvs_browser_month_chart_container"></div>
+                        </div>
+                    </div>
+                    <div class="cvs_right" style="width:45%;" >
+                        <h3 style="text-align: center">Operating Systems</h3>
+                        <div id="cvs_os_month_chart" class="cvs_chart_bar_small">
+                                <div id="cvs_os_month_chart_container"></div>
+                        </div>
+                    </div>
+                    <div class="cvs_clear"></div>
+                    <div width="100%" align="right" style="padding-top:5px;"><button id="cvs_toggleBarChartMonth">Toggle bar chart</button></div>
+
+                </div>
+                <h3 style="text-align: center;">Visits</h3>
+                <div class="cvs_wrapper">
+                    <div class="cvs_left" style="width:45%;">
+                        <div id="cvs_evo_month_chart" class="cvs_chart_bar_small">
+                                <div id="cvs_evo_month_chart_container"></div>
+                        </div>
+                    </div>
+                    <div class="cvs_right" style="width:45%;" id="cvs_overall_month" style="margin-top:-10px"></div>
+                   <div class="cvs_clear"></div>
+                </div>
+                <div class="cvs_clear"></div>
+                <div class="cvs_chart_lastupdate cvs_right">Last update: <span class="last_update_piwki"></span></div>
+                <div class="cvs_clear"></div>
+            </div>
+
+            <!-- *****************************************************************************************************************
+            * SUBTAB 3
+            *****************************************************************************************************************/ -->
+
+            <div id="cvs_tab2_subtab2">
+                <div id ="cvs_map_year"></div>
+                <div class="cvs_wrapper">
+                    <div class="cvs_left" style="width:45%;">
+                        <h3 style="text-align: center">Browsers</h3>
+                        <div id="cvs_browser_year_chart" class="cvs_chart_bar_small">
+                                <div id="cvs_browser_year_chart_container"></div>
+                        </div>
+                    </div>
+                   <div class="cvs_right" style="width:45%;">
+                        <h3 style="text-align: center">Operating Systems</h3>
+                        <div id="cvs_os_year_chart" class="cvs_chart_bar_small">
+                                <div id="cvs_os_year_chart_container"></div>
+                        </div>
+                    </div>
+                    <div class="cvs_clear"></div>
+                    <div width="100%" align="right" style="padding-top:5px;"><button id="cvs_toggleBarChartYear">Toggle bar chart</button></div>
+
+                </div>
+                <h3 style="text-align: center;">Visits</h3>
+                <div class="cvs_wrapper">
+                    <div class="cvs_left" style="width:45%;">
+                        <div id="cvs_evo_year_chart" class="cvs_chart_bar_small">
+                                <div id="cvs_evo_year_chart_container"></div>
+                        </div>
+                    </div>
+                    <div class="cvs_right" style="width:45%;" id="cvs_overall_year" style="margin-top:-10px"></div>
+                   <div class="cvs_clear"></div>
+                </div>
+                <div class="cvs_clear"></div>
+                <div class="cvs_chart_lastupdate cvs_right">Last update: <span class="last_update_piwki"></span></div>
+                <div class="cvs_clear"></div>
+            </div>
+
+            <!-- *****************************************************************************************************************
+            * SUBTAB 4
+            *****************************************************************************************************************/ -->
+
+            <div id="cvs_tab2_subtab3">
+                <div id ="cvs_map_last_year"></div>
+                <div class="cvs_wrapper">
+                    <div class="cvs_left" style="width:45%;">
+                        <h3 style="text-align: center">Browsers</h3>
+                        <div id="cvs_browser_last_year_chart" class="cvs_chart_bar_small">
+                                <div id="cvs_browser_last_year_chart_container"></div>
+                        </div>
+                    </div>
+                   <div class="cvs_right" style="width:45%;">
+                        <h3 style="text-align: center">Operating Systems</h3>
+                        <div id="cvs_os_last_year_chart" class="cvs_chart_bar_small">
+                                <div id="cvs_os_last_year_chart_container"></div>
+                        </div>
+                    </div>
+                    <div class="cvs_clear"></div>
+                    <div width="100%" align="right" style="padding-top:5px;"><button id="cvs_toggleBarChartLastYear">Toggle bar chart</button></div>
+                </div>
+                <h3 style="text-align: center;">Visits</h3>
+                <div class="cvs_wrapper">
+                    <div class="cvs_left" style="width:45%;">
+                        <div id="cvs_evo_last_year_chart" class="cvs_chart_bar_small">
+                                <div id="cvs_evo_last_year_chart_container"></div>
+                        </div>
+                    </div>
+                    <div class="cvs_right" style="width:45%;" id="cvs_overall_last_year" style="margin-top:-10px"></div>
+                   <div class="cvs_clear"></div>
+                </div>
+                <div class="cvs_clear"></div>
+                <div class="cvs_chart_lastupdate cvs_right">Last update: <span class="last_update_piwki"></span></div>
+                <div class="cvs_clear"></div>
+            </div>
+         </div>
+    </div>
+    <!-- *****************************************************************************************************************
+    * TAB 4
+    *****************************************************************************************************************/ -->
+    <div id="cvs_tab3" class="cvs_tab3_block">
+        <div id="cvs_map_upper_container">
+            <div id="cvs_map_loading" class="cvs_loading">Loading data chart...</div>
+            <div id="cvs_map_container" style="display: none;">
+                <div id="cvs_map_canvas" style="height: 500px; width: 100%; border: 1px solid grey;"></div>
+                <div id="cvs_details"></div>
+            </div>
+            <div id="cvs_filters">
+                <span onclick="_cvs_hide_elements_name('portals');">Portals
+                <input type="checkbox" checked=checked onclick="_cvs_hide_elements('portals')"/></span>
+                <div class="cvs_clear"></div>
+                <div id="cvs_filter_portals" class="cvs_hidden"></div>
+                <span onclick="_cvs_hide_elements_name('routers');">Routers                    <input type="checkbox" checked=checked onclick="_cvs_hide_elements('routers')"/></span>
+                <div class="cvs_clear"></div>
+                <div id="cvs_filter_routers" class="cvs_hidden"></div>
+                <span onclick="_cvs_hide_elements_name('gateways');">Gateways                    <input type="checkbox" checked=checked onclick="_cvs_hide_elements('gateways')"/></span>
+                <div class="cvs_clear"></div>
+                <div id="cvs_filter_gateways" class="cvs_hidden"></div>
+            </div>
+        </div>
+
+        <div id="show_all_map">
+            <button id="cvs_toggle_topology_graph">Show topology</button>
+            <button name="show_all" id = "show_all" onclick="cvs_reload_position();">Full map</button>
+        </div>
+
+        <div id="cvs_topology_container" class="cvs_topology_container" style="display: none;"></div>
+
+        <div id="cvs_monitoring_summery">
+            <div class="cvs_left" style="width:33%;">
+                <h3>Overall usage summary</h3>
+                <div id="cvs_portal_summary" style="padding-top:10px;">
+                        <p class="text_status no_space"><span class="cvs_monitoring_portal_summary_users_img"></span>Connected users: <strong><span id="cvs_monitoring_portal_summary_users"> </strong></span></p>
+                        <p class="text_status no_space extra_padding"><span class="cvs_monitoring_portal_summary_users_img"></span>Desktop/mobile clients: <strong><span id="cvs_monitoring_portal_summary_users_soft"> </strong></span></p>
+                        <p class="text_status no_space extra_padding"><span class="cvs_monitoring_portal_summary_users_img"></span>H323/SIP clients: <strong><span id="cvs_monitoring_portal_summary_users_h323"> </strong></span></p>
+                        <p class="text_status no_space extra_padding"><span class="cvs_monitoring_portal_summary_users_img"></span>VoIP clients: <strong><span id="cvs_monitoring_portal_summary_users_voip"> </strong></span></p>
+                        <p class="text_status no_space"><span id="cvs_monitoring_portal_summary_conferances_img"></span>Active conferences: <strong><span id="cvs_monitoring_portal_summary_conferances"> </strong></span></p>
+
+                        <p class="text_status no_space"><span id="cvs_monitoring_portal_summary_pools_img"></span>Active pools: <strong><span id="cvs_monitoring_portal_summary_pools"></span></strong></p>
+                    <div id="cvs_summary_more_link" class="cvs_left" style="padding-right:20px; font-weight:bold; text-decoration:none;">
+                    </div>
+                    </div>
+            </div>
+            <div class="cvs_right" style="width:67%;">
+                <div class="cvs_left" style="width:50%;">
+                    <h3>Users on most used routers</h3>
+                    <div id="cvs_mitoring_summery_routers" class="routers_list" style="border-left: #CCCCCC solid 1px; border-right: #CCCCCC solid 1px; height:160px;">
+                    </div>
+                </div>
+                <div class="cvs_right" style="width:50%">
+                    <h3>Endpoints on most used gateways</h3>
+                    <div id="cvs_mitoring_summery_gateways" class="gateway_list">
+                    </div>
+                </div>
+                <div class="cvs_clear"></div>
+            </div>
+            <div class="cvs_clear"></div>
+        </div>
+
+    </div>
+    <div id="dialog-modal" title="Basic modal dialog" class="cvs_monitoring_wrapper">
+       <div class="cvs_monitoring_left">
+        <form>
+            <fieldset>
+                <legend>System information</legend>
+                <div class="cvs_monitoring_margin">
+                    <p class="text_status">Hostname: <strong><span id="cvs_monitoring_si_hostname"></strong></span></p>
+                    <p class="text_status">Ip address: <strong><span id="cvs_monitoring_si_ip"></span></strong></p>
+                    <p class="text_status">Device type: <strong><span id="cvs_monitoring_si_type"></span></strong></p>
+                    <p class="text_status">Overall status: <strong><span id="cvs_monitoring_si_status"></span></strong></p>
+                </div>
+            </fieldset>
+             <fieldset>
+                <legend>Device specific status</legend>
+                <div class="cvs_monitoring_margin">
+
+                    <!-- ROUTER SPECIFIC -->
+                    <div id="cvs_router_specific" class="cvs_hidden">
+                        <!-- USERS HISTORY -->
+                        <div class="service-container">
+                            <p class="text_status">
+                                <span id="cvs_monitoring_router_users_img"></span>Number of users: <strong><span id="cvs_monitoring_router_users"></span></strong>
+                            </p>
+                            <p class="cvs_clear"></p>
+                            <div class="cvs_chart_wrapper_mini" id="cvs_monitoring_router_users_history">
+                                <p class="zoom_link">
+                                    <a onclick="cvs_zoom_history_graph(this, 'users', 'cvs_router_users_history')">Zoom out</a>
+                                </p>
+                                <div id="cvs_router_users_history_loading" class="cvs_loading">Loading data chart...</div>
+                                <div id="cvs_router_users_history_chart" class="cvs_chart_mini">
+                                     <div id="cvs_router_users_history_chart_container"></div>
+                                </div>
+                                <div class="cvs_clear"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- GATEWAY SPECIFIC -->
+                    <div id="cvs_gateway_specific" class="cvs_hidden">
+
+                        <!-- H323 HISTORY -->
+                        <div class="service-container">
+                            <p class="text_status">
+                                <span id="cvs_monitoring_gateway_h323_img"></span>Number of H323/SIP connections: <strong><span id="cvs_monitoring_gateway_h323"></span></strong>
+                            </p>
+                            <p class="cvs_clear"></p>
+                            <div class="cvs_chart_wrapper_mini" id="cvs_monitoring_gateway_h323_history">
+                                <p class="zoom_link">
+                                    <a onclick="cvs_zoom_history_graph(this, 'h323', 'cvs_gateway_h323_history')">Zoom out</a>
+                                </p>
+                                <div id="cvs_gateway_h323_history_loading" class="cvs_loading">Loading data chart...</div>
+                                <div id="cvs_gateway_h323_history_chart" class="cvs_chart_mini">
+                                     <div id="cvs_gateway_h323_history_chart_container"></div>
+                                </div>
+                                <div class="cvs_clear"></div>
+                            </div>
+                        </div>
+
+                        <!-- VOIP HISTORY -->
+                        <div class="service-container">
+                            <p class="text_status">
+                                <span id="cvs_monitoring_gateway_phone_img"></span>Number of VoIP connections: <strong><span id="cvs_monitoring_gateway_phone"></span></strong>
+                            </p>
+                            <p class="cvs_clear"></p>
+                            <div class="cvs_chart_wrapper_mini" id="cvs_monitoring_gateway_phone_history">
+                                <p class="zoom_link">
+                                    <a onclick="cvs_zoom_history_graph(this, 'phone_connections', 'cvs_gateway_phone_history')">Zoom out</a>
+                                </p>
+                                <div id="cvs_gateway_phone_history_loading" class="cvs_loading">Loading data chart...</div>
+                                <div id="cvs_gateway_phone_history_chart" class="cvs_chart_mini">
+                                     <div id="cvs_gateway_phone_history_chart_container"></div>
+                                </div>
+                                <div class="cvs_clear"></div>
+                            </div>
+                        </div>
+                     </div>
+
+                    <!-- PORTAL SPECIFIC -->
+                    <div id="cvs_portal_specific" class="cvs_hidden">
+
+                        <!-- CONFERENCES HISTORY -->
+                        <div class="service-container">
+                            <p class="text_status">
+                                <span id="cvs_monitoring_portal_conferances_img"></span>Number of conferences: <strong><span id="cvs_monitoring_portal_conferances"></span></strong>
+                            </p>
+                            <p class="cvs_clear"></p>
+                            <div class="cvs_chart_wrapper_mini" id="cvs_monitoring_portal_conferences_history">
+                                <p class="zoom_link">
+                                    <a onclick="cvs_zoom_history_graph(this, 'conferances', 'cvs_portal_conferences_history')">Zoom out</a>
+                                </p>
+                                <div id="cvs_portal_conferences_history_loading" class="cvs_loading">Loading data chart...</div>
+                                <div id="cvs_portal_conferences_history_chart" class="cvs_chart_mini">
+                                     <div id="cvs_portal_conferences_history_chart_container"></div>
+                                </div>
+                                <div class="cvs_clear"></div>
+                            </div>
+                        </div>
+
+                        <!-- USERS HISTORY -->
+                        <div class="service-container">
+                            <p class="text_status">
+                                <span id="cvs_monitoring_portal_users_img"></span>Number of users: <strong><span id="cvs_monitoring_portal_users"></span></strong>
+                            </p>
+                            <p class="cvs_clear"></p>
+                            <div class="cvs_chart_wrapper_mini" id="cvs_monitoring_portal_users_history">
+                                <p class="zoom_link">
+                                    <a onclick="cvs_zoom_history_graph(this, 'users', 'cvs_portal_users_history')">Zoom out</a>
+                                </p>
+                                <div id="cvs_portal_users_history_loading" class="cvs_loading">Loading data chart...</div>
+                                <div id="cvs_portal_users_history_chart" class="cvs_chart_mini">
+                                     <div id="cvs_portal_users_history_chart_container"></div>
+                                </div>
+                                <div class="cvs_clear"></div>
+                            </div>
+                        </div>
+
+                        <!-- POOLS HISTORY -->
+                        <div class="service-container">
+                            <p class="text_status">
+                                <span id="cvs_monitoring_portal_pools_img"></span><strong>Number of pools: </strong><span id="cvs_monitoring_portal_pools"></span>
+                            </p>
+                            <p class="cvs_clear"></p>
+                            <div class="cvs_chart_wrapper_mini" id="cvs_monitoring_portal_pools_history">
+                                <p class="zoom_link">
+                                    <a onclick="cvs_zoom_history_graph(this, 'pools', 'cvs_portal_pools_history')">Zoom out</a>
+                                </p>
+                                <div id="cvs_portal_pools_history_loading" class="cvs_loading">Loading data chart...</div>
+                                <div id="cvs_portal_pools_history_chart" class="cvs_chart_mini">
+                                     <div id="cvs_portal_pools_history_chart_container"></div>
+                                </div>
+                                <div class="cvs_clear"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </fieldset>
+        </form>
+        </div>
+        <div class="cvs_monitoring_right">
+        <form>
+            <fieldset>
+                <legend>Current system status</legend>
+                <div class="cvs_monitoring_margin">
+
+                    <!-- CPU HISTORY -->
+                    <div class="service-container">
+                        <p class="history_link">
+                            <a class="cvs_history_link" onclick="cvs_toggle_history_graph(this, 'cpu', 'cvs_monitoring_cs_cpu_history', 'cvs_cpu_history')">Show history</a>
+                        </p>
+                        <p class="text_status">
+                            <span id="cvs_monitoring_cs_cpu_img"></span>CPU load: <strong><span id="cvs_monitoring_cs_cpu"></span></strong>
+                        </p>
+                        <p class="cvs_clear"></p>
+                        <div class="cvs_chart_wrapper_mini" id="cvs_monitoring_cs_cpu_history">
+                            <p class="zoom_link">
+                                <a onclick="cvs_zoom_history_graph(this, 'cpu', 'cvs_cpu_history')">Zoom out</a>
+                            </p>
+                            <div id="cvs_cpu_history_loading" class="cvs_loading">Loading data chart...</div>
+                            <div id="cvs_cpu_history_chart" class="cvs_chart_mini">
+                                 <div id="cvs_cpu_history_chart_container"></div>
+                            </div>
+                            <div class="cvs_clear"></div>
+                        </div>
+                    </div>
+
+                    <!-- HDD HISTORY -->
+                    <div class="service-container">
+                        <p class="history_link">
+                            <a class="cvs_history_link" onclick="cvs_toggle_history_graph(this, 'disk', 'cvs_monitoring_cs_hdd_history', 'cvs_hdd_history')">Show history</a>
+                        </p>
+                        <p class="text_status">
+                            <span id="cvs_monitoring_cs_hdd_img"></span>Disk IO: <strong><span id="cvs_monitoring_cs_hdd"></span></strong>
+                        </p>
+                        <p class="cvs_clear"></p>
+                        <div class="cvs_chart_wrapper_mini" id="cvs_monitoring_cs_hdd_history">
+                            <p class="zoom_link">
+                                <a onclick="cvs_zoom_history_graph(this, 'disk', 'cvs_hdd_history')">Zoom out</a>
+                            </p>
+                            <div id="cvs_hdd_history_loading" class="cvs_loading">Loading data chart...</div>
+                            <div id="cvs_hdd_history_chart" class="cvs_chart_mini">
+                                 <div id="cvs_hdd_history_chart_container"></div>
+                            </div>
+                            <div class="cvs_clear"></div>
+                        </div>
+                    </div>
+
+                    <!-- ETH HISTORY -->
+                    <div class="service-container">
+                        <p class="history_link">
+                            <a class="cvs_history_link" onclick="cvs_toggle_history_graph(this, 'interface', 'cvs_monitoring_cs_eth_history', 'cvs_eth_history')">Show history</a>
+                        </p>
+                        <p class="text_status">
+                            <span id="cvs_monitoring_cs_eth_img"></span>Interface eth0: <strong><span id=
+    "cvs_monitoring_cs_eth"></span></strong>
+                        </p>
+                        <p class="cvs_clear"></p>
+                        <div class="cvs_chart_wrapper_mini" id="cvs_monitoring_cs_eth_history">
+                            <p class="zoom_link">
+                                <a onclick="cvs_zoom_history_graph(this, 'interface', 'cvs_eth_history')">Zoom out</a>
+                            </p>
+                            <div id="cvs_eth_history_loading" class="cvs_loading">Loading data chart...</div>
+                            <div id="cvs_eth_history_chart" class="cvs_chart_mini">
+                                 <div id="cvs_eth_history_chart_container"></div>
+                            </div>
+                            <div class="cvs_clear"></div>
+                        </div>
+                    </div>
+
+                    <!-- DDR HISTORY -->
+                    <div class="service-container">
+                        <p class="history_link">
+                            <a class="cvs_history_link" onclick="cvs_toggle_history_graph(this, 'memory', 'cvs_monitoring_cs_ddr_history', 'cvs_ddr_history')">Show history</a>
+                        </p>
+                        <p class="text_status">
+                            <span id="cvs_monitoring_cs_ddr_img"></span>Memory used: <strong><span id="cvs_monitoring_cs_ddr"></span></strong>
+                        </p>
+                        <p class="cvs_clear"></p>
+                        <div class="cvs_chart_wrapper_mini" id="cvs_monitoring_cs_ddr_history">
+                            <p class="zoom_link">
+                                <a onclick="cvs_zoom_history_graph(this, 'memory', 'cvs_ddr_history')">Zoom out</a>
+                            </p>
+                            <div id="cvs_ddr_history_loading" class="cvs_loading">Loading data chart...</div>
+                            <div id="cvs_ddr_history_chart" class="cvs_chart_mini">
+                                 <div id="cvs_ddr_history_chart_container"></div>
+                            </div>
+                            <div class="cvs_clear"></div>
+                        </div>
+                    </div>
+
+                    <!-- TCP HISTORY -->
+                    <div class="service-container">
+                        <p class="history_link">
+                            <a class="cvs_history_link" onclick="cvs_toggle_history_graph(this, 'tcp', 'cvs_monitoring_cs_tcp_history', 'cvs_tcp_history')">Show history</a>
+                        </p>
+                        <p class="text_status">
+                            <span id="cvs_monitoring_cs_tcp_img"></span>TCP Connections: <strong><span id="cvs_monitoring_cs_tcp"></span></strong>
+                        </p>
+                        <p class="cvs_clear"></p>
+                        <div class="cvs_chart_wrapper_mini" id="cvs_monitoring_cs_tcp_history">
+                            <p class="zoom_link">
+                                <a onclick="cvs_zoom_history_graph(this, 'tcp', 'cvs_tcp_history')">Zoom out</a>
+                            </p>
+                            <div id="cvs_tcp_history_loading" class="cvs_loading">Loading data chart...</div>
+                            <div id="cvs_tcp_history_chart" class="cvs_chart_mini">
+                                 <div id="cvs_tcp_history_chart_container"></div>
+                            </div>
+                            <div class="cvs_clear"></div>
+                        </div>
+                    </div>
+
+                    <!-- UDP HISTORY -->
+                    <div class="cvs_hidden service-container" id="cvs_udp_div">
+                        <p class="history_link">
+                            <a class="cvs_history_link" onclick="cvs_toggle_history_graph(this, 'udp', 'cvs_monitoring_cs_udp_history', 'cvs_udp_history')">Show history</a>
+                        </p>
+                        <p class="text_status">
+                            <span id="cvs_monitoring_cs_udp_img"></span>UDP Connections: <strong><span id="cvs_monitoring_cs_udp"></span></strong>
+                        </p>
+                        <p class="cvs_clear"></p>
+                        <div class="cvs_chart_wrapper_mini" id="cvs_monitoring_cs_udp_history">
+                            <p class="zoom_link">
+                                <a onclick="cvs_zoom_history_graph(this, 'udp', 'cvs_udp_history')">Zoom out</a>
+                            </p>
+                            <div id="cvs_udp_history_loading" class="cvs_loading">Loading data chart...</div>
+                            <div id="cvs_udp_history_chart" class="cvs_chart_mini">
+                                 <div id="cvs_udp_history_chart_container"></div>
+                            </div>
+                            <div class="cvs_clear"></div>
+                        </div>
+                    </div>
+
+                    <!-- HTTP HISTORY -->
+                    <div class="cvs_hidden service-container" id="cvs_http_response_div">
+                        <p class="history_link">
+                            <a class="cvs_history_link" onclick="cvs_toggle_history_graph(this, 'http', 'cvs_monitoring_cs_http_response_history', 'cvs_http_response_history')">Show history</a>
+                        </p>
+                        <p class="text_status">
+                            <span id="cvs_monitoring_cs_http_response_img"></span>HTTP: <strong><span id="cvs_monitoring_cs_http_response"></span></strong>
+                        </p>
+                        <p class="cvs_clear"></p>
+                        <div class="cvs_chart_wrapper_mini" id="cvs_monitoring_cs_http_response_history">
+                            <p class="zoom_link">
+                                <a onclick="cvs_zoom_history_graph(this, 'http', 'cvs_http_response_history')">Zoom out</a>
+                            </p>
+                            <div id="cvs_http_response_history_loading" class="cvs_loading">Loading data chart...</div>
+                            <div id="cvs_http_response_history_chart" class="cvs_chart_mini">
+                                 <div id="cvs_http_response_history_chart_container"></div>
+                            </div>
+                            <div class="cvs_clear"></div>
+                        </div>
+                    </div>
+
+                    <!-- HTTPS HISTORY -->
+                    <div class="cvs_hidden service-container" id="cvs_https_div">
+                        <p class="history_link">
+                            <a class="cvs_history_link" onclick="cvs_toggle_history_graph(this, 'https', 'cvs_monitoring_cs_https_history', 'cvs_https_history')">Show history</a>
+                        </p>
+                        <p class="text_status">
+                            <span id="cvs_monitoring_cs_https_img"></span>HTTPS connections: <strong><span id="cvs_monitoring_cs_https"></span></strong>
+                        </p>
+                        <p class="cvs_clear"></p>
+                        <div class="cvs_chart_wrapper_mini" id="cvs_monitoring_cs_https_history">
+                            <p class="zoom_link">
+                                <a onclick="cvs_zoom_history_graph(this, 'https', 'cvs_https_history')">Zoom out</a>
+                            </p>
+                            <div id="cvs_https_history_loading" class="cvs_loading">Loading data chart...</div>
+                            <div id="cvs_https_history_chart" class="cvs_chart_mini">
+                                 <div id="cvs_https_history_chart_container"></div>
+                            </div>
+                            <div class="cvs_clear"></div>
+                        </div>
+                    </div>
+
+                    <!-- VP, VR2 & VIDYO STATUS -->
+                    <div class="cvs_hidden service-container" id="cvs_vp_div">
+                        <span>
+                            <span class="text_status"><span id="cvs_monitoring_cs_vp_img"></span><strong>VP process </strong><span id="cvs_monitoring_cs_vp"></span></span>
+                        </span>
+                        <span class="cvs_hidden" id="cvs_vr2_div">
+                            <span class="text_status"><span id="cvs_monitoring_cs_vr2_img"></span><strong>VR2 process </strong><span id="cvs_monitoring_cs_vr2"></span></span>
+                        </span>
+                        <span class="cvs_hidden" id="cvs_vidyo_div">
+                            <span class="text_status"><span id="cvs_monitoring_cs_vidyo_img"></span><strong>Vidyo manager </strong><span id="cvs_monitoring_cs_vidyo"></span></span>
+                        </span>
+                        <div class="text_status"><br/></div>
+                    </div>
+
+                    <!-- UPTIME HISTORY -->
+                    <div class="service-container">
+                        <p class="history_link">
+                            <a class="cvs_history_link" onclick="cvs_toggle_history_graph(this, 'uptime', 'cvs_monitoring_cs_uptime_history', 'cvs_uptime_history')">Show history</a>
+                        </p>
+                        <p class="text_status">
+                            <span id="cvs_monitoring_cs_uptime_img"></span>Uptime: <strong><span id="cvs_monitoring_cs_uptime"></span></strong>
+                        </p>
+                        <p class="cvs_clear"></p>
+                        <div class="cvs_chart_wrapper_mini" id="cvs_monitoring_cs_uptime_history">
+                            <p class="zoom_link">
+                                <a onclick="cvs_zoom_history_graph(this, 'uptime', 'cvs_uptime_history')">Zoom out</a>
+                            </p>
+                            <div id="cvs_uptime_history_loading" class="cvs_loading">Loading data chart...</div>
+                            <div id="cvs_uptime_history_chart" class="cvs_chart_mini">
+                                 <div id="cvs_uptime_history_chart_container"></div>
+                            </div>
+                            <div class="cvs_clear"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </fieldset>
+            <div  id="cvs_portal_specific2" class="cvs_hidden">
+                <fieldset>
+                    <legend>Number of users on active routers</legend>
+                    <div id="cvs_routers_active"></div>
+                </fieldset>
+             </div>
+        </form>
+        </div>
+    </div>
+    <div id="dialog-no-data" title="The monitoring system is offline" class="cvs_monitoring_wrapper">
+        <h3>The monitoring system is offline.<br/>Please contact the <a href="mailto:vidyo-support@cern.ch">vidyo-support@cern.ch</a></h3>
+    </div>
+    <div id="dialog-modal-summary" title="Basic modal dialog" class="cvs_monitoring_wrapper">
+       <div class="cvs_monitoring_left">
+        <form>
+            <fieldset>
+                <legend>Overall usage summary</legend>
+                <div class="cvs_monitoring_margin">
+                    <div>
+
+                        <!-- CONFERENCES HISTORY -->
+                        <div class="service-container">
+                            <p class="text_status">
+                                <span id="cvs_summary_portal_conferances_img"></span>Number of conferences: <strong><span id="cvs_summary_portal_conferances"></span></strong>
+                            </p>
+                            <p class="cvs_clear"></p>
+                            <div class="cvs_chart_wrapper_mini" id="cvs_summary_portal_conferances_history">
+                                <p class="zoom_link">
+                                    <a onclick="cvs_zoom_history_graph(this, 'conferances', 'cvs_summary_conferances_history')">Zoom out</a>
+                                </p>
+                                <div id="cvs_summary_conferances_history_loading" class="cvs_loading">Loading data chart...</div>
+                                <div id="cvs_summary_conferances_history_chart" class="cvs_chart_mini">
+                                     <div id="cvs_summary_conferances_history_chart_container"></div>
+                                </div>
+                                <div class="cvs_clear"></div>
+                            </div>
+                        </div>
+
+                        <!-- USERS HISTORY -->
+                        <div class="service-container">
+                            <p class="text_status">
+                                <span id="cvs_summary_portal_users_img"></span>Number of users: <strong><span id="cvs_summary_portal_users"></span></strong></p>
+                            <p class="cvs_clear"></p>
+                            <p class="cvs_clear"></p>
+                            <div class="cvs_chart_wrapper_mini" id="cvs_summary_portal_users_history">
+                                <p class="zoom_link">
+                                    <a onclick="cvs_zoom_history_graph(this, 'users', 'cvs_summary_users_history')">Zoom out</a>
+                                </p>
+                                <div id="cvs_summary_users_history_loading" class="cvs_loading">Loading data chart...</div>
+                                <div id="cvs_summary_users_history_chart" class="cvs_chart_mini">
+                                     <div id="cvs_summary_users_history_chart_container"></div>
+                                </div>
+                                <div class="cvs_clear"></div>
+                            </div>
+                        </div>
+
+                        <!-- POOLS HISTORY -->
+                        <div class="service-container">
+                            <p class="text_status">
+                                <span id="cvs_summary_portal_pools_img"></span>Number of pools: <strong><span id="cvs_summary_portal_pools"></span></strong>
+                            </p>
+                            <p class="cvs_clear"></p>
+                            <div class="cvs_chart_wrapper_mini" id="cvs_summary_portal_pools_history">
+                                <p class="zoom_link">
+                                    <a onclick="cvs_zoom_history_graph(this, 'pools', 'cvs_summary_pools_history')">Zoom out</a>
+                                </p>
+                                <div id="cvs_summary_pools_history_loading" class="cvs_loading">Loading data chart...</div>
+                                <div id="cvs_summary_pools_history_chart" class="cvs_chart_mini">
+                                     <div id="cvs_summary_pools_history_chart_container"></div>
+                                </div>
+                                <div class="cvs_clear"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <div>
+                <fieldset>
+                    <legend>License info</legend>
+                    <div id="cvs_license_data"></div>
+                    <div id="cvs_license_data_loading" class="cvs_loading">Loading license info...</div>
+                </fieldset>
+             </div>
+        </form>
+        </div>
+        <div class="cvs_monitoring_right">
+            <form>
+                <div>
+                    <fieldset>
+                        <legend>Number of users on active routers</legend>
+                        <div id="cvs_summary_routers_active"></div>
+                    </fieldset>
+                 </div>
+                 <div>
+                    <fieldset>
+                        <legend>Number of endpoints on active gateways</legend>
+                        <div id="cvs_summary_gateways_active"></div>
+                    </fieldset>
+                 </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+<div class="cvs_clear"></div>
+

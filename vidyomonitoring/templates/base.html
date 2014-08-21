@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}Vidyo Proxy admin page{% endblock %}</title>
+     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+     <link href="/static/css/bootstrap.css" rel="stylesheet">
+    <script src="/static/js/jquery.js"></script>
+    <script src="https://www.google.com/jsapi"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAdH6fztFFWFpwmWjGybmrdSGLTsMa20M8&sensor=false"></script>
+    <script src="/static/js/markerwithlabel.js"></script>
+    <script src="/static/js/map.js"></script>
+     <style type="text/css">
+
+      body {
+        padding-top: 50px;
+        padding-bottom: 40px;
+        background-color: #ffffff;
+      }
+
+      .form-signin {
+        max-width: 300px;
+        padding: 19px 29px 29px;
+        margin: 0 auto 20px;
+        margin-top: 100px;
+        margin-bottom: 100px;
+        background-color: #fff;
+        border: 1px solid #e5e5e5;
+        -webkit-border-radius: 5px;
+           -moz-border-radius: 5px;
+                border-radius: 5px;
+        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+           -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+                box-shadow: 0 1px 2px rgba(0,0,0,.05);
+      }
+      .form-signin .form-signin-heading,
+      .form-signin .checkbox {
+        margin-bottom: 10px;
+      }
+      .form-signin input[type="text"],
+      .form-signin input[type="password"] {
+        font-size: 16px;
+        height: auto;
+        margin-bottom: 15px;ROUTERS
+        padding: 7px 9px;
+      }
+     footer {
+       clear: both;
+       position: relative;
+       z-index: 10;
+       height: 3em;
+       margin-top: -3em;
+     }
+    </style>
+     <link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
+</head>
+<body>
+  {% block headerbar %}
+            {% if not_logged_in %}
+        <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="/">CERN Vidyo Monitoring Admin</a>
+        </div>
+      </div>
+    </div>
+            {% endif %}
+            {% if not not_logged_in %}
+	<div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="/">Vidyo monitoring proxy admin</a>
+          <div class="nav-collapse collapse">
+            <p class="navbar-text pull-right">
+              <a href="/logout/" class="navbar-link">Logout</a>
+            </p>
+            <ul class="nav">
+              <li class="active"><a href="/alert/users/">Configuration</a></li>
+              <li class="active"><a href="/locations/">Locations</a></li>
+              <li class="active"><a href="/alert/history/">Alert History</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+            {% endif %}
+{% endblock %}
+	<div class="container" style="width:95%">
+		{% if error %}
+		<div class="alert alert-error">
+		  <a class="close" data-dismiss="alert">×</a>
+		  <strong>
+				{{ error }}
+		  </strong>
+		</div>
+		{% endif %}
+      	{% block content %}{% endblock %}
+	      <hr>
+	      <footer>
+                <div id="cvs_cern_logo" class="img" align="right">
+                  <img src="/static/img/cerntech_logo.jpg" height=100 width=100>
+                </div>
+                <div align="right">&copy CERN 2013</div>
+	      </footer>
+    </div>
+	 <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/static/js/bootstrap-transition.js"></script>
+    <script src="/static/js/bootstrap-alert.js"></script>
+    <script src="/static/js/bootstrap-modal.js"></script>
+    <script src="/static/js/bootstrap-dropdown.js"></script>
+    <script src="/static/js/bootstrap-scrollspy.js"></script>
+    <script src="/static/js/bootstrap-tab.js"></script>
+    <script src="/static/js/bootstrap-tooltip.js"></script>
+    <script src="/static/js/bootstrap-popover.js"></script>
+    <script src="/static/js/bootstrap-button.js"></script>
+    <script src="/static/js/bootstrap-collapse.js"></script>
+    <script src="/static/js/bootstrap-carousel.js"></script>
+    <script src="/static/js/bootstrap-typeahead.js"></script>
+</body>

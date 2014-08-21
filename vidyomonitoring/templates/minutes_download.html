@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block content %}
+<script>
+	var elemnts = [];
+	var c1 =0;
+	var c2 = 0;
+	function getElements(){
+		var start_date = new Date($('#start_date').val());
+		var end_date = new Date($('#end_date').val());
+
+		var timeDiff1 = Math.abs(new Date().getTime() - start_date.getTime());
+		var timeDiff2 = Math.abs(new Date().getTime() - end_date.getTime());
+		var diffDays_start = Math.ceil(timeDiff1 / (1000 * 3600 * 24)); 
+		var diffDays_end = Math.ceil(timeDiff2 / (1000 * 3600 * 24)); 
+
+		if(diffDays_start){
+			$('#button').hide()
+			console.log('diabled');
+					var tmp_end = i+30;
+					if(tmp_end > diffDays_start)
+						tmp_end = diffDays_start;
+					var data = 'start_date='+i+'&end_date='+tmp_end;
+					jQuery.ajax({
+	                            type: 'POST',
+	                            url: '/download/',
+	                            async: true,
+	                            data: data,
+	                            success: upadate_ok
+	                });
+				
+
+			console.log('enabled');
+
+		}
+	}
+
+	function convert_name(id){
+		data = 'convert_name='+id;
+		jQuery.ajax({
+                            type: 'POST',
+                            url: '/download/',
+                            async: true,
+                            data: data,
+                            success: upadate_name
+                });
+	}
+
+	function build_view(){
+		if(c1==c2)
+			$('#button').show()
+		var html2 = build_header_table();
+		var id = 1;
+		var total = 0;
+		for(index in elemnts){
+			var e = elemnts[index];
+			
+			html2+= '<tr><td>'+(id++)+'</td><td style="width:100px;">'+ e['date']+'</td><td style="width:300px; overflow:auto;" id="'+e['conference']+'">'+ e['conference']+'</td><td>'+ e['minutes']+'</td><td style="width:300px;">'+e['windows']+'</td></tr>';
+			total+=e['minutes'];
+			//convert_name(e['conference']);
+		}
+		html2 += build_footer_table();
+		$('#data_loc').html(html2);
+		$('#total_time').html('Total minutes: ' +total )
+	}
+
+	var upadate_name = function(data, textStatus, xhr){
+		if(textStatus=='success'){
+			var html3 = data['name'];//+'  ('+data['id']+')';
+			$('#'+data['id']).html(html3);
+		}
+
+	}
+
+	var upadate_ok = function(data, textStatus, xhr){
+		if(textStatus=='success'){
+			c2++;
+			for(index in data){
+				elemnts.push(data[index]);
+			}
+			var sort_function = function(a, b) {
+	            u1 = a['date'];
+	            u2 = b['date'];
+	            if (u1 < u2) { return 1; }
+	            if (u1 > u2) { return  -1; }
+	            return 0;
+        	}
+        	elemnts.sort(sort_function);
+			build_view();
+
+		}
+		
+	}
+
+	function build_header_table(){
+		return '<table  class="table table-striped"><thead><tr><td>No</td><td>Date</td><td>Conference</td><td>Number of minutes</td><td>Window</td></tr></thead></tbody>';
+	}
+	function build_footer_table(){
+		return '</tbody></table>'
+	}
+
+</script>
+<div id="total_time" style="float:right;"></div>
+<div style="vertical-align:top">
+<div class="input-prepend">
+	 <span class="add-on">Start date</span>
+	  <input class="span2" id="start_date" name="start_date" value="2013-04-29" type="text" required />
+</div>
+<div class="input-prepend">
+	 <span class="add-on">End date</span>
+	  <input class="span2" id="end_date" name="end_date" value = "2013-05-03" type="text" required />
+	  <input type="button" class="btn btn-success" value="Search" id="button" onclick="getElements();">
+</div>
+</div>
+<div id="data_loc"></div>
+
+{% endblock %}

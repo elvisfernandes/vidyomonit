@@ -1,0 +1,8 @@
+name = CERN Vidyo Statistics
+description = Gets Vidyo's usage data from Vidyo databases and renders it in a graphical way.
+core = 7.x
+package = CERN
+version = 7.x-2.1
+configure = admin/config/cern/vidyo_statistics
+dependencies[] = elysia_cron
+dependencies[] = user_permissions

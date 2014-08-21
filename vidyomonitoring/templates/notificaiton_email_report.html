@@ -1,0 +1,87 @@
+<html>
+{% load mointoriong_tags %}
+<head>
+	<title>Vidyo proxy notification</title>
+</head>
+<body>
+<h1>Monthly report for {% now "F Y" %}:</h1>
+<hr/>
+<br/> 
+<table id="header" cellpadding="10" cellspacing="0" >
+	<thead>
+		<tr bgcolor="CCCCC">
+			<th>Service name</th>
+			<th>Monthly status</th>
+			<th>Last month status</th>
+			<th>Tendency</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr bgcolor="FFFFFF" align="center">
+			<td align="right"><strong>Number of meetings:</strong></td>
+			<td>{{ total_meetings }}</td>
+			<td>{{ old_meetings }}</td>
+			<td>{% ifequal old_meetings_sign 1 %}
+					<img src="https://{{ current_site }}/static/img/up.png" height="16px" />
+				{% else %}
+					{% ifequal old_meetings_sign -1 %}
+						<img src="https://{{ current_site }}/static/img/down.png" height="16px" />
+					{% else %}
+						<img src="https://{{ current_site }}/static/img/equal.png" height="16px" />
+					{% endifequal %}
+				{% endifequal %}
+			</td>
+		</tr>
+		<tr bgcolor="EEEEEE" valign="top" align="center">
+			<td align="right"><strong>Top 10 meetings:</strong></td>
+			<td colspan="3" align="left">
+				{% for c in top_10 %}
+				{{ forloop.counter }}. <b><i>{{ c.name }}</i></b> on <i>{{ c.date }}</i> with <b>{{ c.users }}</b> users<br/>
+  				{% endfor %}
+			</td>
+		</tr>
+		<tr bgcolor="FFFFFF" align="center">
+			<td align="right"><strong>Number of connections Mobile/Desktop:</strong></td>
+			<td>{{ total_software }}</td>
+			<td>{{ old_software }}</td>
+			<td>{% ifequal old_software_sign 1 %}
+					<img src="https://{{ current_site }}/static/img/up.png" height="16px" />
+				{% else %}
+					{% ifequal old_software_sign -1 %}
+						<img src="https://{{ current_site }}/static/img/down.png" height="16px" />
+					{% else %}
+						<img src="https://{{ current_site }}/static/img/equal.png" height="16px" />
+					{% endifequal %}
+				{% endifequal %}</td>
+		</tr>
+		<tr bgcolor="EEEEEE" align="center">
+			<td align="right"><strong>Number of H323/SIP:</strong></td>
+			<td>{{ total_h323 }}</td>
+			<td>{{ old_h323 }}</td>
+			<td>{% ifequal old_h323_sign 1 %}
+					<img src="https://{{ current_site }}/static/img/up.png" height="16px" />
+				{% else %}
+					{% ifequal old_h323_sign -1 %}
+						<img src="https://{{ current_site }}/static/img/down.png" height="16px" />
+					{% else %}
+						<img src="https://{{ current_site }}/static/img/equal.png" height="16px" />
+					{% endifequal %}
+				{% endifequal %}</td>
+		</tr>
+		<tr bgcolor="FFFFFF" align="center">
+			<td align="right"><strong>Number of VoIP calls:</strong></td>
+			<td>{{ total_voip }}</td>
+			<td>{{ old_voip }}</td>
+			<td>{% ifequal old_voip_sign 1 %}
+					<img src="https://{{ current_site }}/static/img/up.png" height="16px" />
+				{% else %}
+					{% ifequal old_voip_sign -1 %}
+						<img src="https://{{ current_site }}/static/img/down.png" height="16px" />
+					{% else %}
+						<img src="https://{{ current_site }}/static/img/equal.png" height="16px" />
+					{% endifequal %}
+				{% endifequal %}</td>
+		</tr>
+	</tbody>
+</table>
+</body>

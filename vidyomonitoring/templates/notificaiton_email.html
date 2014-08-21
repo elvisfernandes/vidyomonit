@@ -1,0 +1,57 @@
+<html>
+{% load mointoriong_tags %}
+<head>
+	<title>Vidyo proxy notification</title>
+</head>
+<body>
+<h1>Network elements at risk at {% now "jS F Y H:i" %}:</h1>
+<hr/>
+<table id="header" cellpadding="10" cellspacing="0">
+	<thead>
+		<tr bgcolor="CCCCC">
+			<th>Device name</th>
+			<th>Status</th>
+			<th>Affected services</th>
+			<th>Output</th>
+			<th>Comment</th>
+		</tr>
+	</thead>
+	<tbody>
+	{% for host in hosts %}
+		{% ifnotequal host.row_status 0 %}
+		<tr bgcolor="{% if a|divisibleby:2 %}FFFFFF{% else %}EEEEEE{% endif %}">
+			<td valign="top" rowspan="{{ host.affected_services }}">{{host.hostname}}
+			</td>
+			<td valign="top" align="center" rowspan="{{ host.affected_services }}">
+			{% ifequal host.row_status 0 %}
+				<font color="green">Ok</font>
+			{% else %}
+					{% ifequal host.row_status 1 %}
+						<font color="orange">Warning</font>
+					{%else %}
+						<font color="red">Danger</font>
+					{% endifequal %}
+			{% endifequal %}
+			</td>
+				{% for key,value in host.basic_services.items %}
+					{% ifnotequal value.status 0 %}
+							<td>{{ key }} 
+							</td><td>{{ value.description }}  </td>
+							<td>{{ value.comment }}</td></tr><tr bgcolor="{% if a|divisibleby:2 %}FFFFFF{% else %}EEEEEE{% endif %}">
+
+					{% endifnotequal %}
+				{% endfor %}
+				{% for key,value in host.specific_services.items %}
+					{% ifnotequal value.status 0 %}
+							<td>{{ key }} 
+							</td><td>{% ifequal value.description -1 %} Service not available {% else %} {{ value.description }} {% endifequal %}  </td><td>{{ value.comment }}</td></tr><tr bgcolor="{% if a|divisibleby:2 %}FFFFFF{% else %}EEEEEE{% endif %}">
+
+					{% endifnotequal %}
+				{% endfor %}
+		</tr>
+	{% ++ a %}
+	{% endifnotequal %}
+	{% endfor %}
+	</tbody>
+</table>
+</body>

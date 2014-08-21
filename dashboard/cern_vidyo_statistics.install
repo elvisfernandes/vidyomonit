@@ -1,0 +1,607 @@
+<?php 
+// cern_vidyo_statistics.install
+require_once "cvs_data_migrator.php";
+
+function cern_vidyo_statistics_install() {
+  $m = new CVS_data_migrator();
+
+  //insert Simultanious connection data from xml
+  $schema_array = array("users_number","timestamp","is_agragated");
+  $override_array = array(null,null,0);
+  $schema = 'cern_vidyo_statistics_maxSimCallers';
+  $m->updateFromXML('vidyo_max_sim_callers_last24.xml',
+                    $schema,
+                    $schema_array,
+                    $override_array);
+  $override_array = array(null,null,1);
+  $m->updateFromXML('vidyo_max_sim_callers.xml',
+                    $schema,
+                    $schema_array,
+                    $override_array);
+  // insert cern_vidyo_statistics_usersInConference from xml
+  $schema_array = array("conference_calls","point_to_point","timestamp","is_agragated");
+  $override_array = array(null,null,null,0);
+  $schema = 'cern_vidyo_statistics_usersInConference';
+  $m->updateFromXML('vidyo_users_in_conference_calls_last24.xml',
+                    $schema,
+                    $schema_array,
+                    $override_array);
+  $override_array = array(null,null,null,1);
+  $m->updateFromXML('vidyo_users_in_conference_calls.xml',
+                    $schema,
+                    $schema_array,
+                    $override_array);
+  // insert cern_vidyo_statistics_meetings from xml
+  $schema_array = array("date","other","atlas","cms","lhcb","alice","is_agragated");
+  $override_array = array(null,null,null,null,null,null,0);
+  $schema = 'cern_vidyo_statistics_meetings';
+  $m->updateFromXML('vidyo_meetings_lastweek.xml',
+                    $schema,
+                    $schema_array,
+                    $override_array);
+    // insert cern_vidyo_statistics_meetings from xml for mounth
+  $schema_array = array("date","other","atlas","cms","lhcb","alice","is_agragated");
+  $override_array = array(null,null,null,null,null,null,1);
+  $schema = 'cern_vidyo_statistics_meetings';
+  $m->updateFromXML('vidyo_meetings_per_month.xml',
+                    $schema,
+                    $schema_array,
+                    $override_array,
+                    true);
+
+  // insert cern_vidyo_statistics_unique_users from xml
+  $schema_array = array("year","month","totalOthers","totalGuests","totalH323","totalTel","totalVidyoRooms","is_agragated");
+  $override_array = array(null,null,null,null,null,null,null,0);
+  $schema = 'cern_vidyo_statistics_unique_users';
+  $m->updateFromXML('vidyo_unique_users_per_month.xml',
+                    $schema,
+                    $schema_array,
+                    $override_array);
+    // insert cern_vidyo_statistics_installations from xml
+  $schema_array = array("timestamp","installed_V1","installed_V2");
+  $override_array = array(null,null,null);
+  $schema = 'cern_vidyo_statistics_installations';
+  $m->updateFromXML('vidyo_installations.xml',
+                    $schema,
+                    $schema_array,
+                    $override_array,
+                    false,true);
+    // insert cern_vidyo_statistics_licenses from xml
+  $schema_array = array("name","max","value");
+  $override_array = array(null,null,null);
+  $schema = 'cern_vidyo_statistics_licenses';
+  $m->updateFromXML('vidyo_licenses.xml',
+                    $schema,
+                    $schema_array,
+                    $override_array
+                    );
+    // insert cern_vidyo_statistics_groups from xml
+  $schema_array = array("name","value");
+  $override_array = array(null,null);
+  $schema = 'cern_vidyo_statistics_groups';
+  $m->updateFromXML('vidyo_groups.xml',
+                    $schema,
+                    $schema_array,
+                    $override_array
+                    );
+   // insert cern_vidyo_statistics_groups from xml
+  $schema_array = array("name","value");
+  $override_array = array(null,null);
+  $schema = 'cern_vidyo_statistics_legacies';
+  $m->updateFromXML('vidyo_legacies.xml',
+                    $schema,
+                    $schema_array,
+                    $override_array
+                    );
+
+}
+
+function cern_vidyo_statistics_update_7201() {
+ $schema['cern_vidyo_statistics_minutesInConference'] = array(
+        'description' => 'Table conaining informations about the users in conferances.',
+        'fields' => array(
+            'id' => array(
+                'description' => 'The primary identifier for a entry.',
+                'type' => 'serial',
+                'unsigned' => TRUE,
+                ),
+            'minutes' => array(
+                'description' => 'The mumbers of minutes.',
+                'type' => 'int',
+                'unsigned' => TRUE,
+                'default' => 0,
+                ),
+            'timestamp' => array(
+                'description' => 'The Unix timestamp when the entry was computed.',
+                'type' => 'int',
+                'default' => 0,
+                )
+        ),
+        'primary key' => array('id'),
+    );
+  db_create_table('cern_vidyo_statistics_minutesInConference', $schema['cern_vidyo_statistics_minutesInConference']);
+}
+
+
+function cern_vidyo_statistics_update_7202() {
+    $schema['cern_vidyo_statistics_users_devices'] = array(
+        'fields' => array(
+            'id' => array(
+                'description' => 'The primary identifier for a entry.',
+                'type' => 'serial',
+                'unsigned' => TRUE,
+                
+                ),
+            'timestamp' => array(
+                'description' => 'The Unix timestamp when the entry was computed.',
+                'type' => 'int',
+                'default' => 0,
+                ),
+           'new_users' => array(
+                'type' => 'int',
+                'default' => 0,
+                ),
+           'new_devices' => array(
+                'type' => 'int',
+                'default' => 0,
+                ),
+        ),
+        'primary key' => array('id'),
+    );
+  db_create_table('cern_vidyo_statistics_users_devices', $schema['cern_vidyo_statistics_users_devices']);
+}
+
+
+
+function cern_vidyo_statistics_update_7203() {
+    $spec= array(
+                'type' => 'int',
+                'default' => 0,
+   );
+  db_add_field( 'cern_vidyo_statistics_users_devices', 'new_guests', $spec);
+  $vs = new CVS_background_worker();
+  for($i =0; $i<365;$i++)
+    $data = $vs->get_new_users_new_devices($i);
+}
+
+
+function cern_vidyo_statistics_update_7204() {
+
+ $schema['cern_vidyo_statistics_usersInConference_perMeeting'] = array(
+        'description' => 'Table conaining informations about the users in conferances.',
+        'fields' => array(
+            'id' => array(
+                'description' => 'The primary identifier for a entry.',
+                'type' => 'serial',
+                'unsigned' => TRUE,
+                
+                ),
+            'conference_calls' => array(
+                'description' => 'The mumbers of users.',
+                'type' => 'int',
+                'unsigned' => TRUE,
+                
+                'default' => 0,
+                ),
+            'conferance' => array(
+                 'type' => 'varchar', 
+                'length' => 100, 
+                ),
+            'timestamp' => array(
+                'description' => 'The Unix timestamp when the entry was computed.',
+                'type' => 'int',
+                
+                'default' => 0,
+                ),
+            'is_agragated' => array(
+                'description' => 'Boolean represents the agragated view of a day.',
+                'type' => 'int',
+                
+                'default' => 1,
+                )
+        ),
+        'primary key' => array('id'),
+    );
+  db_create_table('cern_vidyo_statistics_usersInConference_perMeeting', $schema['cern_vidyo_statistics_usersInConference_perMeeting']);
+}
+
+
+function cern_vidyo_statistics_schema(){
+    $schema['cern_vidyo_statistics_maxSimCallers'] = array(
+        'description' => 'Table conaining informations about the simultaneous connections.',
+        'fields' => array(
+            'id' => array(
+                'description' => 'The primary identifier for a entry.',
+                'type' => 'serial',
+                'unsigned' => TRUE,
+                
+                ),
+            'users_number' => array(
+                'description' => 'The mumbers of users.',
+                'type' => 'int',
+                'unsigned' => TRUE,
+                
+                'default' => 0,
+                ),
+            'timestamp' => array(
+                'description' => 'The Unix timestamp when the entry was computed.',
+                'type' => 'int',
+                
+                'default' => 0,
+                ),
+            'is_agragated' => array(
+                'description' => 'Boolean represents the agragated view of a day.',
+                'type' => 'int',
+                
+                'default' => 1,
+                )
+        ),
+        'primary key' => array('id'),
+    );
+
+    $schema['cern_vidyo_statistics_usersInConference'] = array(
+        'description' => 'Table conaining informations about the users in conferances.',
+        'fields' => array(
+            'id' => array(
+                'description' => 'The primary identifier for a entry.',
+                'type' => 'serial',
+                'unsigned' => TRUE,
+                
+                ),
+            'conference_calls' => array(
+                'description' => 'The mumbers of users.',
+                'type' => 'int',
+                'unsigned' => TRUE,
+                
+                'default' => 0,
+                ),
+            'point_to_point' => array(
+                'description' => 'Number of point to point.',
+                'type' => 'int',
+                'unsigned' => TRUE,
+                
+                'default' => 0,
+                ),
+            'timestamp' => array(
+                'description' => 'The Unix timestamp when the entry was computed.',
+                'type' => 'int',
+                
+                'default' => 0,
+                ),
+            'is_agragated' => array(
+                'description' => 'Boolean represents the agragated view of a day.',
+                'type' => 'int',
+                
+                'default' => 1,
+                )
+        ),
+        'primary key' => array('id'),
+    );
+ $schema['cern_vidyo_statistics_usersInConference_perMeeting'] = array(
+        'description' => 'Table conaining informations about the users in conferances.',
+        'fields' => array(
+            'id' => array(
+                'description' => 'The primary identifier for a entry.',
+                'type' => 'serial',
+                'unsigned' => TRUE,
+                
+                ),
+            'conference_calls' => array(
+                'description' => 'The mumbers of users.',
+                'type' => 'int',
+                'unsigned' => TRUE,
+                
+                'default' => 0,
+                ),
+            'conferance' => array(
+                 'type' => 'varchar', 
+                'length' => 100, 
+                ),
+            'timestamp' => array(
+                'description' => 'The Unix timestamp when the entry was computed.',
+                'type' => 'int',
+                
+                'default' => 0,
+                ),
+            'is_agragated' => array(
+                'description' => 'Boolean represents the agragated view of a day.',
+                'type' => 'int',
+                
+                'default' => 1,
+                )
+        ),
+        'primary key' => array('id'),
+    );
+
+
+    $schema['cern_vidyo_statistics_minutesInConference'] = array(
+        'description' => 'Table conaining informations about the users in conferances.',
+        'fields' => array(
+            'id' => array(
+                'description' => 'The primary identifier for a entry.',
+                'type' => 'serial',
+                'unsigned' => TRUE,
+                ),
+            'minutes' => array(
+                'description' => 'The mumbers of minutes.',
+                'type' => 'int',
+                'unsigned' => TRUE,
+                'default' => 0,
+                ),
+            'timestamp' => array(
+                'description' => 'The Unix timestamp when the entry was computed.',
+                'type' => 'int',
+                'default' => 0,
+                )
+        ),
+        'primary key' => array('id'),
+    );
+    
+    $schema['cern_vidyo_statistics_meetings'] = array(
+        'description' => 'Table conaining informations on each group per day.',
+        'fields' => array(
+            'id' => array(
+                'description' => 'The primary identifier for a entry.',
+                'type' => 'serial',
+                'unsigned' => TRUE,
+                
+                ),
+            'date' => array(
+                'description' => 'The atlas group',
+                'type' => 'varchar', 
+                'length' => 100, 
+                 
+                'default' => ''
+                ),
+            'atlas' => array(
+                'description' => 'The atlas group',
+                'type' => 'int',
+                
+                'default' => 0,
+                ),
+            'cms' => array(
+                'description' => 'The cms group',
+                'type' => 'int',
+                
+                'default' => 0,
+                ),
+            'lhcb' => array(
+                'description' => 'The lhcb group',
+                'type' => 'int',
+                
+                'default' => 0,
+                ),
+            'alice' => array(
+                'description' => 'The alice group',
+                'type' => 'int',
+                
+                'defauunique_userslt' => 0,
+                ),
+            'other' => array(
+                'description' => 'Other group',
+                'type' => 'int',
+                
+                'default' => 0,
+                ),
+            'is_agragated' => array(
+                'description' => 'Boolean represents the agragated view of a month.',
+                'type' => 'int',
+                
+                'default' => 1,
+                )
+        ),
+        'primary key' => array('id'),
+    );
+
+    $schema['cern_vidyo_statistics_unique_users'] = array(
+        'fields' => array(
+            'id' => array(
+                'description' => 'The primary identifier for a entry.',
+                'type' => 'serial',
+                'unsigned' => TRUE,
+                
+                ),
+            'year' => array(
+                'type' => 'varchar', 
+                'length' => 100, 
+                 
+                'default' => ''
+                ),
+            'month' => array(
+                'type' => 'varchar', 
+                'length' => 100, 
+                 
+                'default' => ''
+                ),
+            'totalOthers' => array(
+                'type' => 'int',
+                
+                'default' => 0,
+                ),
+            'totalGuests' => array(
+                'type' => 'int',
+                
+                'default' => 0,
+                ),
+            'totalH323' => array(
+                'type' => 'int',
+                
+                'default' => 0,
+                ),
+            'totalTel' => array(
+                'type' => 'int',
+                
+                'default' => 0,
+                ),
+            'totalVidyoRooms' => array(
+                'type' => 'int',
+                
+                'default' => 0,
+                ),
+            'is_agragated' => array(
+                'description' => 'Boolean represents the agragated view of a month.',
+                'type' => 'int',
+                
+                'default' => 1,
+                )
+        ),
+        'primary key' => array('id'),
+    );
+
+/*$schema['cern_vidyo_statistics_callers_per_meeting'] = array(
+        'fields' => array(
+            'id' => array(
+                'description' => 'The primary identifier for a entry.',
+                'type' => 'serial',
+                'unsigned' => TRUE,
+                
+                ),
+            'callers' => array(
+                'type' => 'int',
+                
+                'default' => 0,
+                ),
+           'meetings_V1' => array(
+                'type' => 'int',
+                
+                'default' => 0,
+                ),
+           'meetings_V2' => array(
+                'type' => 'int',
+                
+                'default' => 0,
+                ),
+        ),
+        'primary key' => array('id'),
+    );*/
+
+    $schema['cern_vidyo_statistics_users_devices'] = array(
+        'fields' => array(
+            'id' => array(
+                'description' => 'The primary identifier for a entry.',
+                'type' => 'serial',
+                'unsigned' => TRUE,
+                
+                ),
+            'timestamp' => array(
+                'description' => 'The Unix timestamp when the entry was computed.',
+                'type' => 'int',
+                'default' => 0,
+                ),
+           'new_users' => array(
+                'type' => 'int',
+                'default' => 0,
+                ),
+           'new_devices' => array(
+                'type' => 'int',
+                'default' => 0,
+                ),
+            'new_guests' => array(
+                'type' => 'int',
+                'default' => 0,
+                ),
+        ),
+        'primary key' => array('id'),
+        );
+    $schema['cern_vidyo_statistics_installations'] = array(
+        'fields' => array(
+            'id' => array(
+                'description' => 'The primary identifier for a entry.',
+                'type' => 'serial',
+                'unsigned' => TRUE,
+                
+                ),
+            'timestamp' => array(
+                'description' => 'The Unix timestamp when the entry was computed.',
+                'type' => 'int',
+                
+                'default' => 0,
+                ),
+           'installed_V1' => array(
+                'type' => 'int',
+                
+                'default' => 0,
+                ),
+           'installed_V2' => array(
+                'type' => 'int',
+                
+                'default' => 0,
+                ),
+        ),
+        'primary key' => array('id'),
+    );
+$schema['cern_vidyo_statistics_licenses'] = array(
+        'fields' => array(
+            'id' => array(
+                'description' => 'The primary identifier for a entry.',
+                'type' => 'serial',
+                'unsigned' => TRUE,
+                
+                ),
+            'name' => array(
+                'type' => 'varchar', 
+                'length' => 100, 
+                 
+                'default' => ''
+                ),
+           'max' => array(
+                'type' => 'int',
+                
+                'default' => 0,
+                ),
+           'value' => array(
+                'type' => 'int',
+                
+                'default' => 0,
+                ),
+        ),
+        'primary key' => array('id'),
+    );
+    $schema['cern_vidyo_statistics_groups'] = array(
+        'fields' => array(
+            'id' => array(
+                'description' => 'The primary identifier for a entry.',
+                'type' => 'serial',
+                'unsigned' => TRUE,
+                
+                ),
+            'name' => array(
+                'type' => 'varchar', 
+                'length' => 100, 
+                 
+                'default' => ''
+                ),
+           'value' => array(
+                'type' => 'int',
+                
+                'default' => 0,
+                ),
+        ),
+        'primary key' => array('id'),
+    );
+    $schema['cern_vidyo_statistics_legacies'] = array(
+        'fields' => array(
+            'id' => array(
+                'description' => 'The primary identifier for a entry.',
+                'type' => 'serial',
+                'unsigned' => TRUE,
+                
+                ),
+            'name' => array(
+                'type' => 'varchar', 
+                'length' => 100, 
+                 
+                'default' => ''
+                ),
+           'value' => array(
+                'type' => 'int',
+                
+                'default' => 0,
+                ),
+        ),
+        'primary key' => array('id'),
+    );
+    return $schema;
+}
+
+?>

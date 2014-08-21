@@ -1,0 +1,508 @@
+<?php
+
+require_once 'cvs_background_worker.php';
+require_once 'cvs_data_display.php';
+
+/*******************************************************************************************************
+ * CRON
+ *******************************************************************************************************/
+/**
+ * Implements hook_cronapi.
+ *
+ * Set up a new cron job for this module.
+ *
+ * @param op
+ *   Which path of the site we're using to display help
+ * @param job
+ *   Array that holds the current path as returned from arg() function
+ */
+function cern_vidyo_statistics_cronapi($op, $job = NULL) {
+
+    $items['vidyo_statistics_fetch_every_1min'] = array(
+        'description' => 'Cron for Vidyo charts to be updated every 1 minute',
+        'rule' => '*/1 * * * *', // timing for cron job
+        'callback' => '_cern_vidyo_statistics_fetch_every_1min'
+    );
+
+
+    $items['vidyo_statistics_fetch_every_1day'] = array(
+        'description' => 'Cron for Vidyo charts to be updated every 24 hours',
+        'rule' => '0 */24 * * *', // timing for cron job
+        'callback' => '_cern_vidyo_statistics_fetch_every_1day'
+    );
+
+    $items['vidyo_statistics_fetch_every_1month'] = array(
+        'description' => 'Cron for monthly cronjobs',
+        'rule' => '0 0 1 * *', // timing for cron job
+        'callback' => '_cern_vidyo_statistics_fetch_every_1month'
+    );
+
+    return $items;
+}
+
+function _cern_vidyo_statistics_fetch_every_1min(){
+    $vs = new CVS_background_worker();
+    $vs->get_maximum_simultaneous_callers_last24();
+    $vs->get_users_in_conference_calls_last24();
+    $vs->get_maximum_simultaneous_callers();
+    $vs->get_users_in_conference_per_meeting();
+    $vs->update_monitoring();
+    $vs->get_minutes_in_conference_today();
+}
+
+function _cern_vidyo_statistics_fetch_every_1day(){
+    $vs = new CVS_background_worker();
+    $vs->get_meetings_lastweek();
+    $vs->get_maximum_simultaneous_callers();
+    $vs->get_users_in_conference_calls();
+    $vs->get_unique_users_per_month();
+    $vs->get_meetings_lastmonth();
+    $vs->get_callers_per_meeting();
+    $vs->get_unique_installations();
+    $vs->get_license_status();
+    $vs->get_minutes_in_conference();
+    $vs->get_groups_and_legacies();
+    $vs->get_new_users_new_devices();
+}
+
+function _cern_vidyo_statistics_fetch_every_1month() {
+    $vs = new CVS_background_worker();
+    $vs->send_vidyo_minutes_email();
+}
+
+
+
+/*******************************************************************************************************
+* MODULE Permissions for the module and for each page
+*******************************************************************************************************/
+
+/**
+ * Implements hook_permission().
+ */
+function cern_vidyo_statistics_permission(){
+    return array(
+        'access cern_vidyo_statistics content' => array(
+            'title' => t('View the dashboard'),
+            'description' => t('Select who can view the dashboard page'),
+        ),
+        'access cern_vidyo_statistics monitoring content' => array(
+            'title' => t('View the monitoring dashboard'),
+            'description' => t('Select who can view the monitoring dashboard page'),
+        ),
+        'administer cern_vidyo_statistics configuration' => array(
+            'title' => t('Administer the configuration of the dashboard'),
+            'description' => t('Perform changes to the configuration of the module, connections to the db and API'),
+        )
+    );
+}
+
+/*******************************************************************************************************
+* MODULE Creation of the node to display the dashboard
+*******************************************************************************************************/
+
+function _cvs_display_statisitics() {
+  $vs = new CVS_background_worker();
+
+  // add js for this page
+  // add vars to the settings in javascript
+  $settings = array('cern_vidyo_statistics_config' =>
+          array(
+            'has_monitoring_access' => user_access('access cern_vidyo_statistics monitoring content'),
+            'images_path' => drupal_get_path('module', 'cern_vidyo_statistics') . '/images',
+            'nagios_auth' => cvs_auth_monitoring(),
+            'nagios_host' => $vs->get_cvs_monitoring_proxy_server(),
+          ),
+        );
+  drupal_add_js($settings, 'setting');
+  drupal_add_library('system', 'ui.tabs');
+  drupal_add_library('system', 'ui.button');
+  drupal_add_library('system', 'ui.dialog');
+  drupal_add_js('https://www.google.com/jsapi', 'external');
+  drupal_add_js('https://maps.googleapis.com/maps/api/js?key=AIzaSyAdH6fztFFWFpwmWjGybmrdSGLTsMa20M8&sensor=false&libraries=geometry');
+  drupal_add_js('https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.9/d3.min.js', 'external');
+  drupal_add_js(drupal_get_path('module', 'cern_vidyo_statistics') . '/js/cvs_monitoring.js');
+  drupal_add_js(drupal_get_path('module', 'cern_vidyo_statistics') . '/js/cvs_helpers.js');
+  drupal_add_js(drupal_get_path('module', 'cern_vidyo_statistics') . '/js/cvs_charts_data_builder.js');
+  drupal_add_js(drupal_get_path('module', 'cern_vidyo_statistics') . '/js/cvs_charts.js');
+  drupal_add_js(drupal_get_path('module', 'cern_vidyo_statistics') . '/js/cvs_labels.js');
+  drupal_add_js(drupal_get_path('module', 'cern_vidyo_statistics') . '/js/cvs_clusters.js');
+  drupal_add_js(drupal_get_path('module', 'cern_vidyo_statistics') . '/js/piwik_dash.js');
+  drupal_add_js(drupal_get_path('module', 'cern_vidyo_statistics') . '/js/topology/graph.js');
+  drupal_add_js(drupal_get_path('module', 'cern_vidyo_statistics') . '/js/topology/move_items.js');
+
+
+  // add css for this page, using the CSS_DEFAULT option
+  drupal_add_css(drupal_get_path('module', 'cern_vidyo_statistics') . '/style/cvs_style.css', array('group' => CSS_DEFAULT));
+
+  $page_array['cern_vidyo_statistics_arguments'] = array(
+      '#title' => t('Dashboard'),
+      '#markup' => file_get_contents(drupal_get_path('module', 'cern_vidyo_statistics') . '/cvs_index.html'),
+    );
+
+
+    return $page_array;
+}
+
+function cvs_auth_monitoring(){
+    $vs = new CVS_background_worker();
+    $url = $vs->get_cvs_monitoring_proxy_server() .'login/';
+    // Create map with request parameters
+    $params = array('username'=>variable_get('cvs_monitoring_proxy_username'),
+                     'password'=>variable_get('cvs_monitoring_proxy_password')
+                     );
+
+    // Build Http query using params
+    $query = http_build_query ($params);
+
+    // Create Http context details
+    $contextData = array(
+                    'method' => 'POST',
+                    'header' => "Connection: close\r\n".
+                                "Content-type: application/x-www-form-urlencoded\r\n".
+                                "Content-Length: ".strlen($query)."\r\n",
+                    'content'=> $query );
+
+    // Create context resource for our request
+    $context = stream_context_create (array ( 'http' => $contextData ));
+
+    // Read page rendered as result of your POST request
+    $result = @file_get_contents($url, false, $context);
+
+    if ($result === FALSE) {
+        drupal_set_message(t('The monitoring system is offline.'), 'error');
+        $result = '';
+    }
+
+    $_SESSION['auth_key'] = $result;
+    return $result;
+}
+
+function _cvs_cross_domain_proxy(){
+    $params = $_POST;
+    $url = $_POST['url'];
+    // Build Http query using params
+    $query = http_build_query ($params);
+
+    // Create Http context details
+    $contextData = array (
+                        'method' => 'POST',
+                        'header' => "Connection: close\r\n".
+                                    "Content-type: application/x-www-form-urlencoded\r\n".
+                                    "Content-Length: ".strlen($query)."\r\n",
+                        'content'=> $query );
+
+        // Create context resource for our request
+    $context = stream_context_create (array ( 'http' => $contextData ));
+
+        // Read page rendered as result of your POST request
+    $result =  file_get_contents (
+                          $url,  // page url
+                          false,
+                          $context);
+
+    drupal_json_output(json_decode($result));
+}
+
+function _cvs_ajax() {
+  $graphic = $_GET['graphic'];
+  $display = new CSV_data_display();
+  switch ($graphic) {
+      case 'manual_update':
+        $vs = new CVS_background_worker();
+        $vs->get_users_in_conference_per_meeting();
+        break;
+      case 'cvs_maxSimCallersLast24':
+        $data = $display->cvs_get_maxSimCallers(true);
+        break;
+      case 'cvs_usersInConferenceCallsLast24':
+        $data = $display->cvs_get_usersInConference(true);
+        break;
+      case 'cvs_meetingsLastWeek':
+        $data = $display->cvs_get_meetings(true);
+        break;
+      case 'cvs_meetings':
+        $data = $display->cvs_get_meetings(false);
+        break;
+      case 'cvs_maxSimCallers':
+        $data = $display->cvs_get_maxSimCallers(false);
+        break;
+      case 'cvs_usersInConferenceCalls':
+        $data = $display->cvs_get_usersInConference(false);
+        break;
+      case 'cvs_minutesInConf':
+        $data = $display->cvs_get_minutesInConferences($_GET['step']);
+        break;
+      case 'cvs_uniqueUsersPerMonth' :
+        $data = $display->cvs_get_uniqueUsersPerMonth();
+        break;
+      case 'cvs_callersPerMeeting' :
+        $data = $display->cvs_get_callersPerMeeting();
+        break;
+      case 'cvs_installations' :
+        $data = $display->cvs_get_installations();
+        break;
+      case 'cvs_registrations' :
+        $data = $display->cvs_get_registrations();
+        break;
+      case 'cvs_groups' :
+        $data = $display->cvs_get_groups();
+        break;
+      case 'cvs_legacies' :
+        $data = $display->cvs_get_legacies();
+        break;
+      case 'cvs_users_devices':
+        $data = $display->cvs_get_users_devices();
+        break;
+       case 'cvs_top_connection_meetings_yearly':
+        $data = $display->cvs_get_top_connection_meetings_yearly();
+        break;
+       case 'cvs_top_connection_meetings_monthly':
+        $data = $display->cvs_get_top_connection_meetings_monthly();
+        break;
+       case 'cvs_top_connection_meetings_day':
+        $data = $display->cvs_get_top_connection_meetings_day();
+        break;
+       case 'pwiki' :
+        if(isset($_GET['method']) && $_GET['period'])
+            $data = $display->cvs_get_pwiki($_GET['period'],$_GET['method']);
+        else
+            $data = $display->cvs_get_pwiki($_GET['period'], null);
+        break;
+      default:
+        break;
+    }
+  // Return json
+  drupal_json_output($data);
+}
+
+
+
+/*******************************************************************************************************
+ * MODULE CONFIGURATION
+ *******************************************************************************************************/
+
+/**
+ * Implements hook_menu().
+ */
+function cern_vidyo_statistics_menu() {
+    $items = array();
+    // add a new group in the admin/config panel of Drupal
+    $items ['admin/config/cern'] = array(
+        'title' => 'CERN',
+        'description' => 'Configuration for CERN custom modules',
+        'position' => 'right',
+        'page callback' => 'system_admin_menu_block_page',
+        'file' => 'system.admin.inc',
+        'file path' => drupal_get_path( 'module', 'system' ),
+        'access arguments' => array('administer site configuration'),
+    );
+
+    // add the vidyo statistics configuration menu
+    $items['admin/config/cern/vidyo_statistics'] = array(
+        'title' => 'Vidyo Statistics & Monitoring',
+        'description' => 'Configuration for Vidyo Statistics module',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('cern_vidyo_statistics_form'),
+        'access arguments' => array('administer cern_vidyo_statistics configuration'),
+    );
+
+    // links to the dashboard pages
+    $items['Vidyo'] = array(
+        'title' => 'Vidyo',
+        'page callback' => '_cvs_display_statisitics',
+        'access arguments' => array('access cern_vidyo_statistics content'),
+        'type' => MENU_NORMAL_ITEM, //Will appear in Navigation menu.
+        'menu_name' => 'main-menu', // show in the main menu
+    );
+
+   // ajax callback from client
+    $items['Vidyo/ajax'] = array(
+        'title' => t('Vidyo AJAX'),
+        'type' => MENU_CALLBACK,
+        'page callback' => '_cvs_ajax',
+        'access arguments' => array('access cern_vidyo_statistics content'),
+    );
+
+       // ajax callback from client cross domain
+    $items['Vidyo/cross'] = array(
+        'title' => t('Vidyo AJAX 2'),
+        'type' => MENU_CALLBACK,
+        'page callback' => '_cvs_cross_domain_proxy',
+        'access arguments' => array('access cern_vidyo_statistics content'),
+    );
+
+
+    return $items;
+  }
+
+/**
+ * Implements hook_help.
+ *
+ * Displays help and module information.
+ *
+ * @param path
+ *   Which path of the site we're using to display help
+ * @param arg
+ *   Array that holds the current path as returned from arg() function
+ */
+
+function cern_vidyo_statistics_help($path, $arg) {
+    switch ($path) {
+        case "admin/help#cern_vidyo_statistics":
+            return '<p>'. t("Displays charts to view statistics data from Vidyo") .'</p>';
+            break;
+    }
+ }
+
+ /**
+ * Form function, called by drupal_get_form()
+ * in cern_vidyo_statistics_menu().
+ */
+function cern_vidyo_statistics_form($form, &$form_state) {
+
+    $form['cvs_db_hostname'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Vidyo database hostname'),
+        '#default_value' => variable_get('cvs_db_hostname', "hostname"),
+        '#size' => 50,
+        '#maxlength' => 255,
+        '#description' => t('Hostname of the Vidyo database'),
+        '#required' => TRUE,
+    );
+
+    $form['cvs_db_database'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Vidyo database name'),
+        '#default_value' => variable_get('cvs_db_database', "db_name"),
+        '#size' => 50,
+        '#maxlength' => 255,
+        '#description' => t('Hostname of the Vidyo database'),
+        '#required' => TRUE,
+    );
+
+    $form['cvs_db_username'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Vidyo database username'),
+        '#default_value' => variable_get('cvs_db_username', "username"),
+        '#size' => 50,
+        '#maxlength' => 255,
+        '#description' => t('Hostname of the Vidyo database'),
+        '#required' => TRUE,
+    );
+
+    $form['cvs_db_password'] = array(
+        '#type' => 'password',
+        '#title' => t('Vidyo database password'),
+        '#size' => 30,
+        '#description' => t('Password of the Vidyo database'),
+        '#required' => TRUE,
+    );
+
+
+    $form['cvs_indico_url'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Indico hostname'),
+        '#default_value' => variable_get('cvs_indico_url', "hostname"),
+        '#size' => 50,
+        '#maxlength' => 255,
+        '#description' => t('Indico hostname'),
+        '#required' => TRUE,
+    );
+    $form['cvs_indico_apikey'] = array(
+        '#type' => 'password',
+        '#title' => t('Indico API key'),
+        '#size' => 30,
+        '#description' => t('API key generated in Indico'),
+        '#required' => TRUE,
+    );
+    $form['cvs_indico_secretkey'] = array(
+        '#type' => 'password',
+        '#title' => t('Indico SECRET key'),
+        '#size' => 30,
+        '#description' => t('SECRET key generated in Indico'),
+        '#required' => TRUE,
+    );
+
+    $form['cvs_soap_user_url'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Url for User SOAP API'),
+        '#default_value' => variable_get('cvs_soap_user_url', "http://vidyo.website/UserAPI"),
+        '#size' => 100,
+        '#maxlength' => 255,
+        '#description' => t('Url to Vidyo SOAP for user API.'),
+        '#required' => TRUE,
+    );
+
+    $form['cvs_soap_user_username'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Username for User SOAP API'),
+        '#default_value' => variable_get('cvs_soap_user_username', "username"),
+        '#size' => 50,
+        '#maxlength' => 255,
+        '#description' => t('Username to access to Vidyo SOAP for user API.'),
+        '#required' => TRUE,
+    );
+
+    $form['cvs_soap_user_password'] = array(
+        '#type' => 'password',
+        '#title' => t('Password for User SOAP API'),
+        '#size' => 50,
+        '#maxlength' => 255,
+        '#description' => t('Password to access to Vidyo SOAP for user API.'),
+        '#required' => TRUE,
+    );
+
+    $form['cvs_soap_admin_url'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Url for Admin SOAP API'),
+        '#default_value' => variable_get('cvs_soap_admin_url', "http://vidyo.website/AdminAPI"),
+        '#size' => 100,
+        '#maxlength' => 255,
+        '#description' => t('Url to Vidyo SOAP for admin API.'),
+        '#required' => TRUE,
+    );
+
+    $form['cvs_soap_admin_username'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Username for Admin SOAP API'),
+        '#default_value' => variable_get('cvs_soap_admin_username', "username"),
+        '#size' => 50,
+        '#maxlength' => 255,
+        '#description' => t('Username to access to Vidyo SOAP for admin API.'),
+        '#required' => TRUE,
+    );
+
+    $form['cvs_soap_admin_password'] = array(
+        '#type' => 'password',
+        '#title' => t('Password for Admin SOAP API'),
+        '#size' => 50,
+        '#maxlength' => 255,
+        '#description' => t('Password to access to Vidyo SOAP for admin API.'),
+        '#required' => TRUE,
+    );
+     $form['cvs_monitoring_proxy_server'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Url to Vidyo proxy server'),
+        '#size' => 50,
+        '#maxlength' => 255,
+        '#description' => t('Url to Vidyo proxy server.'),
+        '#required' => TRUE,
+    );
+     $form['cvs_monitoring_proxy_username'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Username to Vidyo proxy server'),
+        '#size' => 50,
+        '#maxlength' => 255,
+        '#description' => t('Username to Vidyo proxy server.'),
+        '#required' => TRUE,
+    );
+     $form['cvs_monitoring_proxy_password'] = array(
+        '#type' => 'password',
+        '#title' => t('Password to Vidyo proxy server'),
+        '#size' => 50,
+        '#maxlength' => 255,
+        '#description' => t('Password to Vidyo proxy server.'),
+        '#required' => TRUE,
+    );
+    return system_settings_form($form);
+}

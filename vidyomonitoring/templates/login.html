@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+ <form class="form-signin" action="/loggin/" method="POST">
+        <h2 class="form-signin-heading">Login</h2>
+        <input type="text" class="input-block-level" name="username" placeholder="Username" required>
+        <input type="password" class="input-block-level" name="password" placeholder="Password" required>
+        <input type="hidden" name="redirect" value = "{{ url_redirect }}" />
+        <button class="btn btn-large btn-primary" type="submit">Sign in</button>
+  </form>
+
+{% endblock %}

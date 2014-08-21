@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% load mointoriong_tags %}
+
+{% block content %}
+<form id="delete" name="delete" method="POST">
+  <input type="hidden" name="id" value="" id="delete_value"/>
+</form>
+<div id="cvs_map_canvas" style="height:950px; float:right; width: 75%; border: 1px solid grey;"></div>
+<script>build_map();</script>
+
+<div style="float:left; width:24%;" >
+    <div>
+        <div>
+            <div class="well sidebar-nav" style = "height:900px; overflow:auto">
+                <div>
+                    <button class="btn btn-success btn-lg pull-right" onclick="add_new_popup();">Add new host</button>
+                    <button class="btn btn-danger btn-lg pull-left" onclick="remove_all_hosts();">Remove all hosts</button>
+                </div>
+                <div style="clear:both"></div>
+                <ul class="nav nav-list">
+                    <li class="nav-header">Routers</li>
+                    {% for o in routers %}
+                    <li><span><a href="#" onClick="addElement('router','{{o.hostname}}',null,null,'{{o.ip_address}}', '{{o.label}}')">{{ o.hostname|removedomain }}                </a>
+
+                      {% if not o.location_lgn %}
+                      <span id="{{o.id}}nodata" class="btn-danger" style="padding:2px; font-size:9px">No location</span>
+                      {% else %}
+                      <script>addElement('router','{{o.hostname}}', '{{o.location_lgn}}','{{o.location_lat}}','{{o.ip_address}}', '{{o.label}}')</script>
+                      {% endif %}
+                      <span><a href="#" onClick="removeElement('{{ o.id }}');" class="btn-success" style="padding:2px; font-size:9px">Remove</a></span>
+                  </span>
+              </li>
+              {% endfor %}
+              <li class="nav-header">Gateways</li>
+              {% for o in gateways %}
+              <li><span><a href="#" onClick="addElement('gateway','{{o.hostname}}',null,null,'{{o.ip_address}}', '{{o.label}}')">{{ o.hostname|removedomain }}</a>
+                {% if not o.location_lgn %}
+                <span id="{{o.hostname}}nodata" class="btn-danger" style="padding:2px; font-size:9px">No location</span>
+                {% else %}
+                <script>addElement('gateway','{{o.hostname}}', '{{o.location_lgn}}','{{o.location_lat}}','{{o.ip_address}}', '{{o.label}}')</script>
+                {% endif %}
+            </a>
+            <span><a href="#" onClick="removeElement('{{ o.id }}');" class="btn-success" style="padding:2px; font-size:9px">Remove</a></span>
+        </span>
+    </li>
+    {% endfor %}
+    <li class="nav-header">Portals</li>
+    {% for o in portals %}
+    <li><span><a href="#" onClick="addElement('portal','{{o.hostname}}',null,null,'{{o.ip_address}}', '{{o.label}}')">{{ o.hostname|removedomain }}
+        {% if not o.location_lgn %}               </a>
+
+        <span id="{{o.hostname}}nodata" class="btn-danger" style="padding:2px; font-size:9px">No location</span>
+        {% else %}
+        <script>addElement('portal','{{o.hostname}}', '{{o.location_lgn}}','{{o.location_lat}}','{{o.ip_address}}', '{{o.label}}')</script>
+        {% endif %}
+        <span><a href="#" onClick="removeElement('{{ o.id }}');" class="btn-success" style="padding:2px; font-size:9px">Remove</a></span>
+    </span>
+</li>
+{% endfor %}
+</ul>
+</div><!--/.well -->
+</div><!--/span-->
+</div>
+</div>
+</div>
+<div class="modal hide fade" id="label_editor">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>System information</h3>
+</div>
+<div class="modal-body">
+    <form id="label_editor" method="POST">
+      <fieldset>
+        <div class="cvs_monitoring_margin">
+          <p class="input-prepend"> <span class="add-on">Label&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+           <input class="span2" id="label" name="label" type="text" required /></p>
+           <input  id="ip" name="ip" type="hidden" value = ""/>
+
+           <p><strong>Hostname: </strong><span id="cvs_monitoring_si_hostname"></span></p>
+           <p><strong>Ip address: </strong><span id="cvs_monitoring_si_ip"></span></p>
+           <p class="input-prepend"> <span class="add-on">Device type</span>
+
+            <select class="span2" id="type_device" name="type_device" required>
+              <option>portal</option>
+              <option>router</option>
+              <option>gateway</option>
+          </select></p>
+
+      </div>
+  </fieldset>
+</div>
+<div class="modal-footer">
+    <input type="submit" class="btn btn-primary" value="Save changes"/>
+</div>
+</form>
+</div>
+<div class="modal hide fade" id="label_editor2">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <h3>System information</h3>
+  </div>
+  <div class="modal-body">
+      <fieldset>
+        <div class="cvs_monitoring_margin">
+          <div class="alert alert-danger" id="ip_error" style="display:none">Please enter a valid hostname</div>
+          <div class="alert alert-success" id="ip_success" style="display:none">Please wait until the new host is being added</div>
+          <div class="alert alert-danger" id="ip_add_error" style="display:none"></div>
+          <p class="input-prepend"> <span class="add-on">Label&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+           <input class="span2" id="label2" name="label2" type="text" required /></p><br/>
+           <p class="input-prepend"> <span class="add-on">Hostname&nbsp;&nbsp;</span>
+             <input class="span2" id="hostname" onblur="set_ip();" onfocus="$('#ip_error').hide();" name="hostname" type="text" required /></p>
+             <p><strong>Ip address: </strong><span id="ip2_2"></span></p>
+             <input  id="ip2" name="ip" type="hidden" value = ""/>
+
+             <p class="input-prepend"> <span class="add-on">Device type</span>
+
+              <select class="span2" id="type_device2" name="type_device2" required>
+                <option value="portals">portal</option>
+                <option value="routers">router</option>
+                <option value="gws">gateway</option>
+            </select></p>
+            <br/>
+            <p class="input-prepend"> <span class="add-on">SSH&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+                <select class="span2" id="ssl" name="ssl" required>
+                  <option value="no">No</option>
+                  <option value="yes">Yes</option>
+              </select></p>
+
+
+          </div>
+      </fieldset>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" onclick="add_new_host()" id="button_add_host">Add new host</button>
+</div>
+</div>
+{% endblock %}

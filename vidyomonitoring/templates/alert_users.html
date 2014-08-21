@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="span12">
+<div>
+<h1> Main Vidyo Portal</h1>
+<h5> Configure the main vidyo portal to monitor.</h5>
+</div>
+<table class="table table-striped">
+<thead>
+	<tr>
+		<th width="250px">Host</th>
+		<th width="250px">Read Only Username</th>
+		<th width="250px">Password</th>
+		<th width="250px">Database Name</th>
+		<th width="250px"></th>
+	</tr>
+</thead>
+<tbody>
+{% for portal in portals %}
+	<tr id="row{{ forloop.counter.portal }}" onClick="$('#row{{ forloop.counter.portal }}').hide(); $('#form{{ forloop.counter.portal }}').show()">
+		<td> {{ portal.host }} </td>
+		<td> {{ portal.username }} </td>
+		<td> ******* </td>
+		<td> {{ portal.database }} </td>
+		<td>
+			<input type="submit" class="btn btn-success" value="Edit">
+		</td>
+	</tr>
+	<tr id="form{{ forloop.counter.portal }}" class="table_hide">
+	<form action="./" method="POST" id="myForm{{ forloop.counter.portal }}">
+		<td>
+			<div class="input-prepend">
+	  			<span class="add-on">Host</span>
+	  			<input class="span2" id="host" name="portal_host" type="text" required value="{{ portal.host }}">
+			</div>
+		</td>
+		<td>
+			<div class="input-prepend">
+	  			<span class="add-on">Username</span>
+	  			<input class="span2" id="username" name="portal_username" type="text" required value="{{ portal.username }}">
+			</div>
+		</td>
+		<td>
+			<div class="input-prepend">
+	  			<span class="add-on">Password</span>
+	  			<input class="span2" id="password" name="portal_password" type="password" required>
+			</div>
+		</td>
+		<td>
+			<div class="input-prepend">
+		  		<span class="add-on">Database</span>
+		  		<input class="span2" id="database" name="portal_database" type="text" required value="{{ portal.database }}">
+			</div>
+			<input type="hidden" name="main_portal_id" value ="0" />
+			<input type="hidden" name="toDelete" value="" id="toDelete{{ forloop.counter.portal }}"/>
+		</td>
+		<td>
+			<input type="submit" class="btn btn-success" value="Save">
+			<input type="button" class="btn btn-danger" value="Delete" onClick="$('#toDelete{{ forloop.counter.portal }}').val('True'); $('#myForm{{ forloop.counter.portal }}').submit();">
+		</td>
+	</form> 
+	</tr>
+{% endfor %}
+{% if not portals %}
+<tr>
+	<form action="./" method="POST">
+		<td>
+			<div class="input-prepend">
+	  			<span class="add-on">Host</span>
+	  			<input class="span2" id="host" name="portal_host" type="text" required>
+			</div>
+		</td>
+		<td>
+			<div class="input-prepend">
+	  			<span class="add-on">Username</span>
+	  			<input class="span2" id="username" name="portal_username" type="text" required>
+			</div>
+		</td>
+		<td>
+			<div class="input-prepend">
+	  			<span class="add-on">Password</span>
+	  			<input class="span2" id="password" name="portal_password" type="password" required>
+			</div>
+		</td>
+		<td>
+			<div class="input-prepend">
+		  		<span class="add-on">Database</span>
+		  		<input class="span2" id="database" name="portal_database" type="text" required>
+			</div>
+			<input type="hidden" name="main_portal_id" value ="0" />
+		</td>
+		<td>
+			<input type="submit" class="btn btn-success" value="Save">
+		</td>
+	</form> 
+	</tr>
+{% endif %}
+</tbody>
+</table>
+</div>
+
+
+
+
+<div class="span12">
+<div>
+<h1> Notifications Manager</h1>
+<h5> Configure users that will be notified by email when an alert is triggered.</h5>
+<table class="table table-striped">
+<thead>
+	<tr>
+		<th width="50px">#</th>
+		<th width="250px">Full name</th>
+		<th width="250px">Email</th>
+		<th width="250px">Phone number</th>
+		<th width="250px"></th>
+	</tr>
+</thead>
+<tbody>
+{% for user in users %}
+	<tr id="row{{ forloop.counter }}" onClick="$('#row{{ forloop.counter }}').hide();$('#form{{ forloop.counter }}').show()">
+		<td>{{ forloop.counter }} </td>
+		<td> {{ user.name }} </td>
+		<td> {{ user.email }} </td>
+		<td> {{ user.phone }} </td>
+		<td></td>
+	</tr>
+	<tr id="form{{ forloop.counter }}" class="table_hide">
+	<form action="./" method="POST" id="myForm{{ forloop.counter }}">
+		<td>{{ forloop.counter }} </td>
+		<td>
+			<div class="input-prepend">
+	  			<span class="add-on">Full Name</span>
+	  			<input class="span2" id="name" name="alert_name" type="text" required value="{{ user.name }} ">
+			</div>
+		</td>
+		<td>
+			<div class="input-prepend">
+		  		<span class="add-on">Email</span>
+		  		<input class="span2" id="email" name="alert_email" type="email" required value="{{ user.email }}">
+			</div>
+		</td>
+		<td>
+			<div class="input-prepend">
+		  		<span class="add-on">Mobile phone</span>
+		  		<input class="span2" id="phone" name="alert_phone" type="tel" value="{{ user.phone }}">
+			</div>
+			<input type="hidden" name="user_alert_id" value ="{{ user.id }}" />
+			<input type="hidden" name="toDelete" value="" id="toDelete{{ forloop.counter }}"/>
+		</td>
+		<td>
+			<input type="submit" class="btn btn-success" value="Save">
+			<input type="button" class="btn btn-danger" value="Delete" onClick="$('#toDelete{{ forloop.counter }}').val('True'); $('#myForm{{ forloop.counter }}').submit();">
+		</td>
+	</form> 
+	</tr>
+{% endfor %}
+<tr>
+	<form action="./" method="POST">
+		<td>{{ forloop.counter }} </td>
+		<td>
+			<div class="input-prepend">
+	  			<span class="add-on">Full Name</span>
+	  			<input class="span2" id="name" name="alert_name" type="text" required>
+			</div>
+		</td>
+		<td>
+			<div class="input-prepend">
+		  		<span class="add-on">Email</span>
+		  		<input class="span2" id="email" name="alert_email" type="email" required>
+			</div>
+		</td>
+		<td>
+			<div class="input-prepend">
+		  		<span class="add-on">Mobile phone</span>
+		  		<input class="span2" id="phone" name="alert_phone" type="tel">
+			</div>
+			<input type="hidden" name="user_alert_id" value ="0" />
+		</td>
+		<td>
+			<input type="submit" class="btn btn-success" value="Save">
+		</td>
+	</form> 
+	</tr>
+</tbody>
+</table>
+</div>
+<script>
+ $('.table_hide').hide()
+</script>
+{% endblock %}
