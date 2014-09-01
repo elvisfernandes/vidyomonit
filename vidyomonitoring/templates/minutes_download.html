@@ -1,3 +1,26 @@
+<!--
+# -*- coding: utf-8 -*-
+##
+##
+## This file is part of the CERN Dashboards and Monitoring for Vidyo
+## Copyright (C) 2014 European Organization for Nuclear Research (CERN)
+##
+## CERN Dashboards and Monitoring for Vidyo is free software: you can redistribute it and/or
+## modify it under the terms of the GNU General Public License as
+## published by the Free Software Foundation, either version 3 of the
+## License, or (at your option) any later version.
+##
+## CERN Dashboards and Monitoring for Vidyo is distributed in the hope that it will be useful, but
+## WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+##
+## You should have received a copy of the GNU General Public License
+## along with the CERN Dashboards and Monitoring for Vidyo software.  If not, see <http://www.gnu.org/licenses/>.
+
+# Minutes template.
+ -->
+
 {% extends "base.html" %}
 {% block content %}
 <script>
@@ -10,8 +33,8 @@
 
 		var timeDiff1 = Math.abs(new Date().getTime() - start_date.getTime());
 		var timeDiff2 = Math.abs(new Date().getTime() - end_date.getTime());
-		var diffDays_start = Math.ceil(timeDiff1 / (1000 * 3600 * 24)); 
-		var diffDays_end = Math.ceil(timeDiff2 / (1000 * 3600 * 24)); 
+		var diffDays_start = Math.ceil(timeDiff1 / (1000 * 3600 * 24));
+		var diffDays_end = Math.ceil(timeDiff2 / (1000 * 3600 * 24));
 
 		if(diffDays_start){
 			$('#button').hide()
@@ -27,7 +50,7 @@
 	                            data: data,
 	                            success: upadate_ok
 	                });
-				
+
 
 			console.log('enabled');
 
@@ -53,7 +76,7 @@
 		var total = 0;
 		for(index in elemnts){
 			var e = elemnts[index];
-			
+
 			html2+= '<tr><td>'+(id++)+'</td><td style="width:100px;">'+ e['date']+'</td><td style="width:300px; overflow:auto;" id="'+e['conference']+'">'+ e['conference']+'</td><td>'+ e['minutes']+'</td><td style="width:300px;">'+e['windows']+'</td></tr>';
 			total+=e['minutes'];
 			//convert_name(e['conference']);
@@ -88,7 +111,7 @@
 			build_view();
 
 		}
-		
+
 	}
 
 	function build_header_table(){
