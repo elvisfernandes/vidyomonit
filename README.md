@@ -4,7 +4,7 @@ vidyomonit
 CERN Vidyo Monitoring and Dashboards
 
 This software provides a set of charts and monitoring graphs to use against a deployed Vidyo videoconferencing infrastructure.
-This software is currently in production at:
+The software is currently in production at:
 
 http://avc-dashboard.web.cern.ch/Vidyo
 
