@@ -10,8 +10,8 @@ http://avc-dashboard.web.cern.ch/Vidyo
 
 (c) 2014 CERN - European Organization for the Nuclear Research
 
-vidyo-team@cern.ch, http://cern.ch/Vidyo
-
 under the GNU AFFERO GENERAL PUBLIC LICENSE
+
+vidyo-team@cern.ch, http://cern.ch/Vidyo
 
 If the terms of the license collide with your intentions to use the software please contact us for the possibility of having a dual license. 
