@@ -524,5 +524,12 @@ function cern_vidyo_statistics_form($form, &$form_state) {
         '#description' => t('Password to Vidyo proxy server.'),
         '#required' => TRUE,
     );
+    $form['cvs_piwik_apikey'] = array(
+        '#type' => 'password',
+        '#title' => t('Piwik API key'),
+        '#size' => 30,
+        '#description' => t('API key for Piwik'),
+        '#required' => FALSE,
+    );
     return system_settings_form($form);
 }
